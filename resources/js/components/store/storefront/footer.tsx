@@ -58,10 +58,7 @@ export function Footer() {
     <footer className="border-t border-border bg-background">
       <div className="web-container grid gap-10 py-12 md:grid-cols-[1.5fr_0.7fr_0.7fr_1.3fr] lg:gap-16">
         <div className="flex flex-col items-start gap-6">
-          <Logo
-            iconClassName="size-11"
-            textClassName="text-4xl"
-          />
+          <Logo imageClassName="h-11" />
           {description && <p className="max-w-xs text-base leading-7 wrap-anywhere text-muted-foreground">{description}</p>}
           <div className="flex items-center gap-5">
             {socialLinks.map((item) => (

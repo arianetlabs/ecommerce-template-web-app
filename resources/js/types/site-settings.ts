@@ -1,5 +1,16 @@
+export interface SiteBrandingImage {
+  url: string
+  default_url: string
+  customized: boolean
+}
+
 export type SiteSettings = {
-  logo_url: string | null
+  branding: {
+    favicon: SiteBrandingImage
+    main_logo: SiteBrandingImage
+    favicon_dark: SiteBrandingImage
+    main_logo_dark: SiteBrandingImage
+  }
   site_name: string
   site_description: string
   site_keywords: string

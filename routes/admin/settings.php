@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Settings\BrandingController;
 use App\Http\Controllers\Admin\Settings\InformationController;
 use App\Http\Controllers\Admin\Settings\ProfileController;
 use App\Http\Controllers\Admin\Settings\SecurityController;
@@ -17,6 +18,12 @@ Route::middleware(['auth:admin'])
 
         Route::put('settings/information', [InformationController::class, 'update'])
             ->name('information.update');
+
+        Route::get('settings/branding', [BrandingController::class, 'edit'])
+            ->name('branding.edit');
+
+        Route::put('settings/branding', [BrandingController::class, 'update'])
+            ->name('branding.update');
 
         Route::get('settings/profile', [ProfileController::class, 'edit'])
             ->name('profile.edit');

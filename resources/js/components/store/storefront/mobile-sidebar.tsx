@@ -31,10 +31,7 @@ export function MobileSidebar() {
         <SheetHeader className="p-0 pr-12">
           <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
           <SheetClose asChild>
-            <Logo
-              iconClassName="size-9"
-              textClassName="text-2xl"
-            />
+            <Logo imageClassName="h-9" />
           </SheetClose>
         </SheetHeader>
 

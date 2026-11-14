@@ -16,7 +16,22 @@ class SiteSetting extends Model
     /** @use HasFactory<SiteSettingFactory> */
     use HasFactory;
 
-    public const string KEY_LOGO_PATH = 'logo_path';
+    public const string KEY_FAVICON_PATH = 'logo_path';
+
+    public const string KEY_MAIN_LOGO_PATH = 'main_logo_path';
+
+    public const string KEY_FAVICON_DARK_PATH = 'favicon_dark_path';
+
+    public const string KEY_MAIN_LOGO_DARK_PATH = 'main_logo_dark_path';
+
+    public const string BRANDING_DIRECTORY = 'site-branding';
+
+    public const array BRANDING = [
+        'favicon' => ['key' => self::KEY_FAVICON_PATH, 'default' => 'site-favicon-placeholder.svg'],
+        'main_logo' => ['key' => self::KEY_MAIN_LOGO_PATH, 'default' => 'site-logo-placeholder.svg'],
+        'favicon_dark' => ['key' => self::KEY_FAVICON_DARK_PATH, 'default' => 'site-favicon-placeholder.svg'],
+        'main_logo_dark' => ['key' => self::KEY_MAIN_LOGO_DARK_PATH, 'default' => 'site-logo-placeholder.svg'],
+    ];
 
     public const string KEY_SITE_NAME = 'site_name';
 
@@ -67,7 +82,10 @@ class SiteSetting extends Model
     public static function defaults(): array
     {
         return [
-            self::KEY_LOGO_PATH => null,
+            self::KEY_FAVICON_PATH => null,
+            self::KEY_MAIN_LOGO_PATH => null,
+            self::KEY_FAVICON_DARK_PATH => null,
+            self::KEY_MAIN_LOGO_DARK_PATH => null,
             self::KEY_SITE_NAME => config('app.name'),
             self::KEY_SITE_DESCRIPTION => '',
             self::KEY_SITE_KEYWORDS => '',

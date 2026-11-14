@@ -7,74 +7,15 @@ import { Label } from '@/components/admin/ui/label'
 import { Spinner } from '@/components/admin/ui/spinner'
 import { Textarea } from '@/components/admin/ui/textarea'
 import type { SiteSettings } from '@/types'
-import { Delete02Icon, Image01Icon, RefreshIcon, SaveIcon, Upload04Icon } from '@hugeicons/core-free-icons'
+import { RefreshIcon, SaveIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Form } from '@inertiajs/react'
-import type { ChangeEvent } from 'react'
-import { useEffect, useRef, useState } from 'react'
 
 interface SiteInformationFormProps {
   settings: SiteSettings
 }
 
 export default function SiteInformationForm({ settings }: SiteInformationFormProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const previewUrlRef = useRef<string | null>(null)
-  const [temporaryLogoUrl, setTemporaryLogoUrl] = useState<string | null>(null)
-  const [removeLogo, setRemoveLogo] = useState(false)
-  const logoPreview = removeLogo ? null : (temporaryLogoUrl ?? settings.logo_url)
-
-  useEffect(() => {
-    return () => {
-      if (previewUrlRef.current) {
-        URL.revokeObjectURL(previewUrlRef.current)
-      }
-    }
-  }, [])
-
-  function clearTemporaryPreview(): void {
-    if (previewUrlRef.current) {
-      URL.revokeObjectURL(previewUrlRef.current)
-      previewUrlRef.current = null
-    }
-  }
-
-  function handleLogoChange(event: ChangeEvent<HTMLInputElement>): void {
-    const file = event.target.files?.[0]
-
-    if (!file) {
-      return
-    }
-
-    clearTemporaryPreview()
-
-    const objectUrl = URL.createObjectURL(file)
-    previewUrlRef.current = objectUrl
-
-    setRemoveLogo(false)
-    setTemporaryLogoUrl(objectUrl)
-  }
-
-  function handleRemoveLogo(): void {
-    clearTemporaryPreview()
-    setTemporaryLogoUrl(null)
-    setRemoveLogo(true)
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
-    }
-  }
-
-  function handleFormReset(): void {
-    clearTemporaryPreview()
-    setTemporaryLogoUrl(null)
-    setRemoveLogo(false)
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
-    }
-  }
-
   return (
     <Form
       {...InformationController.update.form()}
@@ -82,99 +23,9 @@ export default function SiteInformationForm({ settings }: SiteInformationFormPro
         preserveScroll: true,
       }}
       className="space-y-6"
-      onReset={handleFormReset}
-      onSuccess={handleFormReset}
     >
-      {({ errors, processing, progress }) => (
+      {({ errors, processing }) => (
         <>
-          <section className="flex items-start gap-4 bg-background/60">
-            <div className="flex h-22 w-22 shrink-0 items-center justify-center overflow-hidden rounded-lg">
-              {logoPreview ? (
-                <img
-                  alt="Logo del sitio"
-                  className="h-full w-full object-contain"
-                  src={logoPreview}
-                />
-              ) : (
-                <HugeiconsIcon
-                  icon={Image01Icon}
-                  className="size-8 text-muted-foreground"
-                  strokeWidth={1.5}
-                />
-              )}
-            </div>
-
-            <div className="min-w-0 flex-1 space-y-3">
-              <div className="grid gap-1">
-                <Label htmlFor="site-logo">Logo del sitio</Label>
-                <p className="text-sm text-muted-foreground">PNG o SVG de 512 × 512 px.</p>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="xs"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <HugeiconsIcon
-                    icon={Upload04Icon}
-                    strokeWidth={1.5}
-                  />
-                  Subir nuevo
-                </Button>
-
-                <Button
-                  type="button"
-                  variant={removeLogo ? 'secondary' : 'outline'}
-                  size="xs"
-                  disabled={!settings.logo_url && !logoPreview}
-                  onClick={handleRemoveLogo}
-                >
-                  <HugeiconsIcon
-                    icon={Delete02Icon}
-                    strokeWidth={1.5}
-                  />
-                  Quitar
-                </Button>
-
-                <input
-                  id="site-logo"
-                  ref={fileInputRef}
-                  accept=".png,.svg,image/png,image/svg+xml"
-                  className="sr-only"
-                  name="logo"
-                  tabIndex={-1}
-                  type="file"
-                  onChange={handleLogoChange}
-                />
-
-                <input
-                  name="remove_logo"
-                  type="hidden"
-                  value={removeLogo ? '1' : '0'}
-                />
-              </div>
-
-              <InputError message={errors.logo} />
-            </div>
-          </section>
-
-          {progress && (
-            <div className="grid gap-2">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Subiendo logo</span>
-                <span>{Math.round(progress.percentage ?? 0)}%</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-primary transition-all"
-                  style={{ width: `${progress.percentage ?? 0}%` }}
-                />
-              </div>
-            </div>
-          )}
-
           <div className="grid items-start gap-4 xl:grid-cols-2">
             <div className="grid gap-2">
               <Label htmlFor="site_name">Nombre del sitio</Label>

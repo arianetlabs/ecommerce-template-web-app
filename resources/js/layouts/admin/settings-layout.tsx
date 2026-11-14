@@ -3,11 +3,12 @@ import { Button } from '@/components/admin/ui/button'
 import { useCurrentUrl } from '@/hooks/admin/use-current-url'
 import { cn, toUrl } from '@/lib/utils'
 import { edit as editAppearance } from '@/routes/admin/appearance'
+import { edit as editBranding } from '@/routes/admin/branding'
 import { edit as editInformation } from '@/routes/admin/information'
 import { edit as editProfile } from '@/routes/admin/profile'
 import { edit as editSecurity } from '@/routes/admin/security'
 import type { NavItem } from '@/types/admin'
-import { Book02Icon, LockKeyIcon, Settings01Icon, Sun01Icon, UserEdit01Icon } from '@hugeicons/core-free-icons'
+import { Book02Icon, Image01Icon, LockKeyIcon, Settings01Icon, Sun01Icon, UserEdit01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@inertiajs/react'
 import type { PropsWithChildren } from 'react'
@@ -17,6 +18,11 @@ const sidebarNavItems: NavItem[] = [
     title: 'Información del sitio',
     href: editInformation(),
     icon: Book02Icon,
+  },
+  {
+    title: 'Logotipo del sitio',
+    href: editBranding(),
+    icon: Image01Icon,
   },
   {
     title: 'Perfil',

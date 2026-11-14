@@ -50,6 +50,13 @@ const applyTheme = (appearance: Appearance): void => {
 
   document.documentElement.classList.toggle('dark', isDark)
   document.documentElement.style.colorScheme = isDark ? 'dark' : 'light'
+
+  const favicon = document.querySelector<HTMLLinkElement>('link[data-store-favicon]')
+  const faviconUrl = isDark ? favicon?.dataset.dark : favicon?.dataset.light
+
+  if (favicon && faviconUrl && favicon.getAttribute('href') !== faviconUrl) {
+    favicon.setAttribute('href', faviconUrl)
+  }
 }
 
 const subscribe = (callback: () => void) => {

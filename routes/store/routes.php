@@ -12,8 +12,10 @@ use App\Http\Controllers\Store\Auth\RegisteredCustomerController as StoreRegiste
 use App\Http\Controllers\Store\Auth\ResetPasswordController as StoreResetPasswordController;
 use App\Http\Controllers\Store\Auth\VerifyEmailController as StoreVerifyEmailController;
 use App\Http\Controllers\Store\Auth\VerifyEmailLinkController as StoreVerifyEmailLinkController;
+use App\Http\Controllers\Store\BrandingAssetController;
 use App\Http\Controllers\Store\HomeController;
 use App\Http\Middleware\EnsureEmailIsVerified;
+use App\Models\SiteSetting;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/email/verify/{id}/{hash}', StoreVerifyEmailLinkController::class)
@@ -24,6 +26,10 @@ Route::name('store.')
     ->group(function () {
         Route::get('/', HomeController::class)
             ->name('home');
+
+        Route::get('/branding/{image}/{file}', BrandingAssetController::class)
+            ->whereIn('image', array_keys(SiteSetting::BRANDING))
+            ->name('branding.asset');
 
         Route::middleware(['guest:store'])
             ->name('auth.')

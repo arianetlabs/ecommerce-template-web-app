@@ -20,7 +20,7 @@ class SiteSettingsResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @return array<string, string|null>
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
@@ -32,10 +32,29 @@ class SiteSettingsResource extends JsonResource
             ],
         );
 
-        $logoPath = $values->get(SiteSetting::KEY_LOGO_PATH);
+        $branding = [];
+
+        foreach (SiteSetting::BRANDING as $name => $image) {
+            $path = $values->get($image['key']);
+            $defaultUrl = asset($image['default']);
+            $url = match (true) {
+                blank($path) => $defaultUrl,
+                str_starts_with($path, SiteSetting::BRANDING_DIRECTORY.'/') => route('store.branding.asset', [
+                    'image' => $name,
+                    'file' => basename($path),
+                ]),
+                default => Storage::disk('public')->url($path),
+            };
+
+            $branding[$name] = [
+                'url' => $url,
+                'default_url' => $defaultUrl,
+                'customized' => filled($path),
+            ];
+        }
 
         return [
-            'logo_url' => filled($logoPath) ? Storage::disk('public')->url($logoPath) : null,
+            'branding' => $branding,
             'site_name' => (string) $values->get(SiteSetting::KEY_SITE_NAME, config('app.name')),
             'site_description' => (string) $values->get(SiteSetting::KEY_SITE_DESCRIPTION, ''),
             'site_keywords' => (string) $values->get(SiteSetting::KEY_SITE_KEYWORDS, ''),

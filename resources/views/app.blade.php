@@ -9,13 +9,10 @@
             (function() {
                 const appearance = '{{ $appearance ?? "system" }}';
 
-                if (appearance === 'system') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                    if (prefersDark) {
-                        document.documentElement.classList.add('dark');
-                    }
-                }
+                const isDark = appearance === 'dark'
+                    || (appearance === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                document.documentElement.classList.toggle('dark', isDark);
+                document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
             })();
         </script>
 
@@ -30,9 +27,17 @@
             }
         </style>
 
-        <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        @if (str_starts_with($page['component'], 'admin/'))
+            <link rel="icon" href="/favicon.ico" sizes="any">
+            <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+            <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        @else
+            <link rel="icon"
+                  href="{{ $appearance === 'dark' ? $page['props']['site']['branding']['favicon_dark']['url'] : $page['props']['site']['branding']['favicon']['url'] }}"
+                  data-store-favicon
+                  data-light="{{ $page['props']['site']['branding']['favicon']['url'] }}"
+                  data-dark="{{ $page['props']['site']['branding']['favicon_dark']['url'] }}">
+        @endif
 
         @fonts
 

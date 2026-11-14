@@ -28,9 +28,7 @@ class InformationController extends Controller
      */
     public function update(InformationUpdateRequest $request, UpdateSiteInformationAction $updateSiteInformation): RedirectResponse
     {
-        $validated = $request->validated();
-        $logo = $request->file('logo');
-        $updateSiteInformation->handle($validated, $logo);
+        $updateSiteInformation->handle($request->validated());
 
         Inertia::flash('toast', [
             'type' => 'success',
