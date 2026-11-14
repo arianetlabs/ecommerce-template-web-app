@@ -9,7 +9,6 @@ use GdImage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Throwable;
 
 class ProcessProductImageAction
@@ -37,7 +36,8 @@ class ProcessProductImageAction
             }
 
             $paths = [];
-            $filename = Str::lower((string) Str::ulid()).'.avif';
+            $destinationPaths = $this->pathsForPosition($product, $position);
+            $variantPaths = [$primaryVariant => $destinationPaths['path'], ...$destinationPaths['variants']];
 
             foreach ($configuredVariants as $variant => $dimensions) {
                 if (! is_string($variant) || ! is_array($dimensions)) {
@@ -51,7 +51,12 @@ class ProcessProductImageAction
                     continue;
                 }
 
-                $path = $this->variantPath($product, $variant, $filename);
+                $path = $variantPaths[$variant] ?? null;
+
+                if (! is_string($path)) {
+                    continue;
+                }
+
                 $variantImage = $this->centerCrop($sourceImage, $width, $height);
                 $encodedImage = $this->encodeAsAvif($variantImage, $quality);
                 imagedestroy($variantImage);
@@ -96,6 +101,42 @@ class ProcessProductImageAction
                 imagedestroy($sourceImage);
             }
         }
+    }
+
+    /** @return array{path: string, variants: array<string, string>} */
+    public function pathsForPosition(Product $product, int $position): array
+    {
+        $configuredVariants = Config::array('product-images.variants');
+        $primaryVariant = Config::string('product-images.primary_variant');
+        $paths = [];
+
+        foreach ($configuredVariants as $variant => $dimensions) {
+            if (! is_string($variant) || ! is_array($dimensions)) {
+                continue;
+            }
+
+            $width = $dimensions['width'] ?? null;
+            $height = $dimensions['height'] ?? null;
+
+            if (! is_int($width) || $width < 1 || ! is_int($height) || $height < 1) {
+                continue;
+            }
+
+            $paths[$variant] = $this->variantPath($product, $position, $variant, $width, $height);
+        }
+
+        $primaryPath = $paths[$primaryVariant] ?? null;
+
+        if (! is_string($primaryPath)) {
+            throw new ProductImageProcessingException('La variante principal de imagen no está configurada correctamente.');
+        }
+
+        unset($paths[$primaryVariant]);
+
+        return [
+            'path' => $primaryPath,
+            'variants' => $paths,
+        ];
     }
 
     private function centerCrop(GdImage $sourceImage, int $targetWidth, int $targetHeight): GdImage
@@ -146,8 +187,15 @@ class ProcessProductImageAction
         return $contents;
     }
 
-    private function variantPath(Product $product, string $variant, string $filename): string
-    {
+    private function variantPath(
+        Product $product,
+        int $position,
+        string $variant,
+        int $width,
+        int $height,
+    ): string {
+        $filename = "{$product->slug}-{$position}-{$width}x{$height}.avif";
+
         return "images/products/{$product->id}/{$variant}/{$filename}";
     }
 }

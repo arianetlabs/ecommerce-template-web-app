@@ -92,10 +92,16 @@ test('admins can create a product with sanitized content and ordered avif images
         ->and($product->description)->not->toContain('javascript:')
         ->and($images)->toHaveCount(2)
         ->and($images->pluck('position')->all())->toBe([0, 1])
-        ->and($images[0]->path)->toContain('/xl/')
-        ->and($images[0]->path)->toEndWith('.avif')
-        ->and($images[1]->path)->toContain('/xl/')
-        ->and($images[1]->path)->toEndWith('.avif')
+        ->and($images[0]->path)->toBe("images/products/{$product->id}/xl/{$product->slug}-0-1200x1200.avif")
+        ->and($images[0]->variants)->toBe([
+            'md' => "images/products/{$product->id}/md/{$product->slug}-0-750x750.avif",
+            'sm' => "images/products/{$product->id}/sm/{$product->slug}-0-350x350.avif",
+        ])
+        ->and($images[1]->path)->toBe("images/products/{$product->id}/xl/{$product->slug}-1-1200x1200.avif")
+        ->and($images[1]->variants)->toBe([
+            'md' => "images/products/{$product->id}/md/{$product->slug}-1-750x750.avif",
+            'sm' => "images/products/{$product->id}/sm/{$product->slug}-1-350x350.avif",
+        ])
         ->and($images[0]->path)->not->toBe($images[1]->path)
         ->and(array_keys($images[0]->variants))->toBe(['md', 'sm']);
 
@@ -430,6 +436,8 @@ test('admins can update product data and mix reordered existing and new images',
     $product->refresh();
     $updatedImages = $product->images()->get();
     $newImage = $updatedImages->first(fn (ProductImage $image): bool => ! $existingImages->contains('id', $image->id));
+    $firstReorderedImage = $updatedImages->firstWhere('id', $existingImages[2]->id);
+    $lastReorderedImage = $updatedImages->firstWhere('id', $existingImages[0]->id);
 
     expect($product->name)->toBe('Nombre actualizado')
         ->and($product->sku)->toBe('UPDATE-001')
@@ -447,18 +455,88 @@ test('admins can update product data and mix reordered existing and new images',
         ])
         ->and($updatedImages->pluck('position')->all())->toBe([0, 1, 2])
         ->and($newImage)->toBeInstanceOf(ProductImage::class)
-        ->and($newImage?->path)->toContain('/xl/')
-        ->and($newImage?->path)->toEndWith('.avif');
+        ->and($newImage?->path)->toBe("images/products/{$product->id}/xl/{$product->slug}-1-1200x1200.avif")
+        ->and($newImage?->variants)->toBe([
+            'md' => "images/products/{$product->id}/md/{$product->slug}-1-750x750.avif",
+            'sm' => "images/products/{$product->id}/sm/{$product->slug}-1-350x350.avif",
+        ])
+        ->and($firstReorderedImage?->path)->toBe("images/products/{$product->id}/xl/{$product->slug}-0-1200x1200.avif")
+        ->and($firstReorderedImage?->variants)->toBe([
+            'md' => "images/products/{$product->id}/md/{$product->slug}-0-750x750.avif",
+            'sm' => "images/products/{$product->id}/sm/{$product->slug}-0-350x350.avif",
+        ])
+        ->and($lastReorderedImage?->path)->toBe("images/products/{$product->id}/xl/{$product->slug}-2-1200x1200.avif")
+        ->and($lastReorderedImage?->variants)->toBe([
+            'md' => "images/products/{$product->id}/md/{$product->slug}-2-750x750.avif",
+            'sm' => "images/products/{$product->id}/sm/{$product->slug}-2-350x350.avif",
+        ]);
 
-    Storage::disk('public')->assertMissing($existingImages[1]->path);
+    foreach ($existingImages as $existingImage) {
+        Storage::disk('public')->assertMissing($existingImage->path);
 
-    foreach ($existingImages[1]->variants as $deletedVariant) {
-        Storage::disk('public')->assertMissing($deletedVariant);
+        foreach ($existingImage->variants as $existingVariant) {
+            Storage::disk('public')->assertMissing($existingVariant);
+        }
     }
 
-    Storage::disk('public')->assertExists($existingImages[0]->path);
-    Storage::disk('public')->assertExists($existingImages[2]->path);
+    expect(Storage::disk('public')->get($firstReorderedImage->path))->toBe('primary-2')
+        ->and(Storage::disk('public')->get($firstReorderedImage->variants['md']))->toBe('medium-2')
+        ->and(Storage::disk('public')->get($firstReorderedImage->variants['sm']))->toBe('small-2')
+        ->and(Storage::disk('public')->get($lastReorderedImage->path))->toBe('primary-0')
+        ->and(Storage::disk('public')->get($lastReorderedImage->variants['md']))->toBe('medium-0')
+        ->and(Storage::disk('public')->get($lastReorderedImage->variants['sm']))->toBe('small-0');
+
     Storage::disk('public')->assertExists($newImage->path);
+});
+
+test('replacing an image in the same position preserves the newly processed files', function () {
+    Storage::fake('public');
+
+    $admin = Administrator::factory()->create();
+    $brand = Brand::factory()->active()->create();
+    $category = Category::factory()->active()->create();
+    $product = Product::factory()->for($brand)->for($category)->create([
+        'name' => 'Zapatilla Boreal',
+        'sku' => 'BOREAL-001',
+    ]);
+    $primaryPath = "images/products/{$product->id}/xl/{$product->slug}-0-1200x1200.avif";
+    $variants = [
+        'md' => "images/products/{$product->id}/md/{$product->slug}-0-750x750.avif",
+        'sm' => "images/products/{$product->id}/sm/{$product->slug}-0-350x350.avif",
+    ];
+
+    Storage::disk('public')->put($primaryPath, 'old-primary');
+    Storage::disk('public')->put($variants['md'], 'old-medium');
+    Storage::disk('public')->put($variants['sm'], 'old-small');
+
+    ProductImage::factory()->for($product)->create([
+        'path' => $primaryPath,
+        'variants' => $variants,
+        'position' => 0,
+    ]);
+
+    $this->actingAs($admin, 'admin')
+        ->post(route('admin.products.update', $product), [
+            '_method' => 'patch',
+            'name' => $product->name,
+            'sku' => $product->sku,
+            'barcode' => $product->barcode,
+            'brand_id' => $brand->id,
+            'category_id' => $category->id,
+            'sale_price' => $product->sale_price,
+            'is_draft' => true,
+            'images' => [
+                ['file' => UploadedFile::fake()->image('replacement.jpg', 800, 600)],
+            ],
+        ])
+        ->assertRedirect(route('admin.products.index'));
+
+    $image = $product->images()->sole();
+
+    expect($image->path)->toBe($primaryPath)
+        ->and(Storage::disk('public')->get($primaryPath))->not->toBe('old-primary')
+        ->and(Storage::disk('public')->get($variants['md']))->not->toBe('old-medium')
+        ->and(Storage::disk('public')->get($variants['sm']))->not->toBe('old-small');
 });
 
 test('product updates require one to five images that belong to the product', function () {
