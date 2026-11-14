@@ -57,8 +57,18 @@ test('a PNG branding image is served as WebP in the store', function (string $fi
             ->where("site.branding.{$field}.url", $url)
             ->where("site.branding.{$field}.customized", true));
 
-    $home->assertSee('data-light="'.($field === 'favicon' ? $url : asset('site-favicon-placeholder.svg')).'"', false)
-        ->assertSee('data-dark="'.($field === 'favicon_dark' ? $url : asset('site-favicon-placeholder.svg')).'"', false);
+    $lightFavicon = $field === 'favicon' ? $url : asset('site-favicon-placeholder.svg');
+    $darkFavicon = $field === 'favicon_dark' ? $url : asset('site-favicon-placeholder.svg');
+
+    $home->assertSee('data-light="'.$lightFavicon.'"', false)
+        ->assertSee('data-dark="'.$darkFavicon.'"', false);
+
+    $this->withUnencryptedCookie('appearance', $field === 'favicon_dark' ? 'dark' : 'light')
+        ->get(route('admin.dashboard'))
+        ->assertOk()
+        ->assertSee('href="'.($field === 'favicon_dark' ? $darkFavicon : $lightFavicon).'"', false)
+        ->assertSee('data-light="'.$lightFavicon.'"', false)
+        ->assertSee('data-dark="'.$darkFavicon.'"', false);
 })->with([
     'recommended favicon' => ['favicon', 512, 512, 512, 512],
     'small favicon resized for the light theme' => ['favicon', 96, 96, 256, 256],

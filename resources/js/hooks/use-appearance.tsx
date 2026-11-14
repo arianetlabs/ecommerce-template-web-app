@@ -1,3 +1,4 @@
+import { router } from '@inertiajs/react'
 import { useSyncExternalStore } from 'react'
 
 export type ResolvedAppearance = 'light' | 'dark'
@@ -41,6 +42,16 @@ const isDarkMode = (appearance: Appearance): boolean => {
   return appearance === 'dark' || (appearance === 'system' && prefersDark())
 }
 
+const getFavicon = () => document.querySelector<HTMLLinkElement>('link[data-site-favicon]')
+
+const applyFavicon = (favicon: HTMLLinkElement | null, isDark: boolean): void => {
+  const faviconUrl = isDark ? favicon?.dataset.dark : favicon?.dataset.light
+
+  if (favicon && faviconUrl && favicon.getAttribute('href') !== faviconUrl) {
+    favicon.setAttribute('href', faviconUrl)
+  }
+}
+
 const applyTheme = (appearance: Appearance): void => {
   if (typeof document === 'undefined') {
     return
@@ -51,12 +62,7 @@ const applyTheme = (appearance: Appearance): void => {
   document.documentElement.classList.toggle('dark', isDark)
   document.documentElement.style.colorScheme = isDark ? 'dark' : 'light'
 
-  const favicon = document.querySelector<HTMLLinkElement>('link[data-store-favicon]')
-  const faviconUrl = isDark ? favicon?.dataset.dark : favicon?.dataset.light
-
-  if (favicon && faviconUrl && favicon.getAttribute('href') !== faviconUrl) {
-    favicon.setAttribute('href', faviconUrl)
-  }
+  applyFavicon(getFavicon(), isDark)
 }
 
 const subscribe = (callback: () => void) => {
@@ -89,6 +95,17 @@ export function initializeTheme(): void {
 
   currentAppearance = getStoredAppearance()
   applyTheme(currentAppearance)
+
+  router.on('success', ({ detail: { page } }) => {
+    const favicon = getFavicon()
+    const branding = page.props.site?.branding
+
+    if (favicon && branding) {
+      favicon.dataset.light = branding.favicon.url
+      favicon.dataset.dark = branding.favicon_dark.url
+      applyFavicon(favicon, isDarkMode(currentAppearance))
+    }
+  })
 
   // Set up system theme change listener
   mediaQuery()?.addEventListener('change', handleSystemThemeChange)

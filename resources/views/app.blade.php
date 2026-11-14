@@ -27,17 +27,11 @@
             }
         </style>
 
-        @if (str_starts_with($page['component'], 'admin/'))
-            <link rel="icon" href="/favicon.ico" sizes="any">
-            <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-            <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        @else
-            <link rel="icon"
-                  href="{{ $appearance === 'dark' ? $page['props']['site']['branding']['favicon_dark']['url'] : $page['props']['site']['branding']['favicon']['url'] }}"
-                  data-store-favicon
-                  data-light="{{ $page['props']['site']['branding']['favicon']['url'] }}"
-                  data-dark="{{ $page['props']['site']['branding']['favicon_dark']['url'] }}">
-        @endif
+        <link rel="icon"
+              href="{{ $appearance === 'dark' ? $page['props']['site']['branding']['favicon_dark']['url'] : $page['props']['site']['branding']['favicon']['url'] }}"
+              data-site-favicon
+              data-light="{{ $page['props']['site']['branding']['favicon']['url'] }}"
+              data-dark="{{ $page['props']['site']['branding']['favicon_dark']['url'] }}">
 
         @fonts
 
