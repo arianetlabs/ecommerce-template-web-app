@@ -4,6 +4,8 @@ export interface SiteBrandingImage {
   customized: boolean
 }
 
+export type SocialNetwork = 'facebook' | 'instagram' | 'tiktok' | 'x' | 'youtube' | 'threads' | 'linkedin' | 'snapchat' | 'pinterest'
+
 export type SiteSettings = {
   branding: {
     favicon: SiteBrandingImage
@@ -18,5 +20,6 @@ export type SiteSettings = {
   email: string
   phone: string
   address: string
+  social_links: Partial<Record<SocialNetwork, string>>
   [key: string]: unknown
 }

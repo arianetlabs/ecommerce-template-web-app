@@ -13,16 +13,26 @@ import {
   NewTwitterIcon,
   InstagramIcon,
   Linkedin01Icon,
+  PinterestIcon,
+  SnapchatIcon,
+  ThreadsIcon,
+  TiktokIcon,
+  YoutubeIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { usePage } from '@inertiajs/react'
 
-const socialLinks = [
-  { label: 'Facebook', icon: Facebook01Icon },
-  { label: 'X Twitter', icon: NewTwitterIcon },
-  { label: 'Instagram', icon: InstagramIcon },
-  { label: 'LinkedIn', icon: Linkedin01Icon },
-]
+const socialNetworks = [
+  { name: 'facebook', label: 'Facebook', icon: Facebook01Icon },
+  { name: 'x', label: 'X (Twitter)', icon: NewTwitterIcon },
+  { name: 'instagram', label: 'Instagram', icon: InstagramIcon },
+  { name: 'linkedin', label: 'LinkedIn', icon: Linkedin01Icon },
+  { name: 'tiktok', label: 'TikTok', icon: TiktokIcon },
+  { name: 'youtube', label: 'YouTube', icon: YoutubeIcon },
+  { name: 'threads', label: 'Threads', icon: ThreadsIcon },
+  { name: 'snapchat', label: 'Snapchat', icon: SnapchatIcon },
+  { name: 'pinterest', label: 'Pinterest', icon: PinterestIcon },
+] as const
 
 const categories = [{ label: 'Ninos' }, { label: 'Hombre' }, { label: 'Mujer' }, { label: 'Coleccion' }]
 
@@ -50,9 +60,14 @@ const footerFeatures = [
 ]
 
 export function Footer() {
-  const { site_description: description, phone: sitePhone, email, address, footer_credit_name, site_name } = usePage().props.site
+  const { site_description: description, phone: sitePhone, email, address, footer_credit_name, site_name, social_links } = usePage().props.site
   const phone = formatStorePhone(sitePhone)
   const creditName = footer_credit_name.trim() || site_name
+  const socialLinks = socialNetworks.flatMap((network) => {
+    const href = social_links[network.name]
+
+    return href ? [{ ...network, href }] : []
+  })
 
   return (
     <footer className="border-t border-border bg-background">
@@ -60,18 +75,30 @@ export function Footer() {
         <div className="flex flex-col items-start gap-6">
           <Logo imageClassName="h-11" />
           {description && <p className="max-w-xs text-base leading-7 wrap-anywhere text-muted-foreground">{description}</p>}
-          <div className="flex items-center gap-5">
-            {socialLinks.map((item) => (
-              <HugeiconsIcon
-                key={item.label}
-                icon={item.icon}
-                role="img"
-                aria-label={item.label}
-                strokeWidth={2}
-                className="size-5"
-              />
-            ))}
-          </div>
+          {socialLinks.length > 0 && (
+            <nav
+              aria-label="Redes sociales"
+              className="flex flex-wrap items-center gap-5"
+            >
+              {socialLinks.map(({ name, label, icon, href }) => (
+                <a
+                  key={name}
+                  href={href}
+                  aria-label={label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-muted-foreground"
+                >
+                  <HugeiconsIcon
+                    icon={icon}
+                    strokeWidth={2}
+                    className="size-5"
+                    aria-hidden="true"
+                  />
+                </a>
+              ))}
+            </nav>
+          )}
         </div>
 
         <FooterLinkGroup

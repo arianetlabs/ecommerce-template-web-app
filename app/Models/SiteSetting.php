@@ -47,6 +47,24 @@ class SiteSetting extends Model
 
     public const string KEY_ADDRESS = 'address';
 
+    public const string SOCIAL_NETWORK_PREFIX = 'social_';
+
+    public const array SOCIAL_NETWORK_PREFIXES = [
+        'facebook' => 'facebook.com/',
+        'instagram' => 'instagram.com/',
+        'tiktok' => 'tiktok.com/@',
+        'x' => 'x.com/',
+        'youtube' => 'youtube.com/@',
+        'threads' => 'threads.com/@',
+        'linkedin' => 'linkedin.com/in/',
+        'snapchat' => 'snapchat.com/add/',
+        'pinterest' => 'pinterest.com/',
+    ];
+
+    public const string LINKEDIN_COMPANY_PREFIX = 'linkedin.com/company/';
+
+    public const array LINKEDIN_PROFILE_TYPES = ['personal', 'company'];
+
     /**
      * Get all stored settings as cached rows.
      *

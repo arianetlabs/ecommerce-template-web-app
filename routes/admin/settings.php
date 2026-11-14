@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Settings\BrandingController;
 use App\Http\Controllers\Admin\Settings\InformationController;
 use App\Http\Controllers\Admin\Settings\ProfileController;
 use App\Http\Controllers\Admin\Settings\SecurityController;
+use App\Http\Controllers\Admin\Settings\SocialNetworksController;
 use App\Http\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,12 @@ Route::middleware(['auth:admin'])
 
         Route::put('settings/information', [InformationController::class, 'update'])
             ->name('information.update');
+
+        Route::get('settings/social-networks', [SocialNetworksController::class, 'edit'])
+            ->name('social-networks.edit');
+
+        Route::put('settings/social-networks', [SocialNetworksController::class, 'update'])
+            ->name('social-networks.update');
 
         Route::get('settings/branding', [BrandingController::class, 'edit'])
             ->name('branding.edit');

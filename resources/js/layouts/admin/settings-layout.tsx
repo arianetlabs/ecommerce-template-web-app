@@ -7,8 +7,9 @@ import { edit as editBranding } from '@/routes/admin/branding'
 import { edit as editInformation } from '@/routes/admin/information'
 import { edit as editProfile } from '@/routes/admin/profile'
 import { edit as editSecurity } from '@/routes/admin/security'
+import { edit as editSocialNetworks } from '@/routes/admin/social-networks'
 import type { NavItem } from '@/types/admin'
-import { Book02Icon, Image01Icon, LockKeyIcon, Settings01Icon, Sun01Icon, UserEdit01Icon } from '@hugeicons/core-free-icons'
+import { Book02Icon, Image01Icon, LockKeyIcon, Settings01Icon, Share01Icon, Sun01Icon, UserEdit01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@inertiajs/react'
 import type { PropsWithChildren } from 'react'
@@ -23,6 +24,11 @@ const sidebarNavItems: NavItem[] = [
     title: 'Logotipo del sitio',
     href: editBranding(),
     icon: Image01Icon,
+  },
+  {
+    title: 'Redes Sociales',
+    href: editSocialNetworks(),
+    icon: Share01Icon,
   },
   {
     title: 'Perfil',

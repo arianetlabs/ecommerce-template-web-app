@@ -53,8 +53,24 @@ class SiteSettingsResource extends JsonResource
             ];
         }
 
+        $socialLinks = [];
+        $socialPrefixes = SiteSetting::SOCIAL_NETWORK_PREFIXES;
+
+        if (($settings[SiteSetting::SOCIAL_NETWORK_PREFIX.'linkedin_profile_type'] ?? null) === 'company') {
+            $socialPrefixes['linkedin'] = SiteSetting::LINKEDIN_COMPANY_PREFIX;
+        }
+
+        foreach ($socialPrefixes as $network => $prefix) {
+            $username = $settings[SiteSetting::SOCIAL_NETWORK_PREFIX.$network] ?? null;
+
+            if (filled($username)) {
+                $socialLinks[$network] = 'https://'.$prefix.rawurlencode($username);
+            }
+        }
+
         return [
             'branding' => $branding,
+            'social_links' => (object) $socialLinks,
             'site_name' => (string) $values->get(SiteSetting::KEY_SITE_NAME, config('app.name')),
             'site_description' => (string) $values->get(SiteSetting::KEY_SITE_DESCRIPTION, ''),
             'site_keywords' => (string) $values->get(SiteSetting::KEY_SITE_KEYWORDS, ''),
