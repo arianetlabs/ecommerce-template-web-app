@@ -77,7 +77,7 @@ class InformationUpdateRequest extends FormRequest
     {
         $imageSize = @getimagesize($file->getRealPath());
 
-        if ($imageSize === false) {
+        if ($imageSize === false || $imageSize[2] !== IMAGETYPE_PNG) {
             $fail('El logo PNG debe ser una imagen valida.');
 
             return;

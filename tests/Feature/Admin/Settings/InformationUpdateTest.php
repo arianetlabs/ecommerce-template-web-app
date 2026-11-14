@@ -148,7 +148,7 @@ SVG;
     Storage::disk('public')->assertExists($logoPath);
 });
 
-test('site logo must have the required dimensions', function () {
+test('a png logo must have the required format and dimensions', function (string $format, int $size) {
     Storage::fake('public');
 
     $user = Administrator::factory()
@@ -161,7 +161,10 @@ test('site logo must have the required dimensions', function () {
         ->from(route('admin.information.edit'))
         ->post(route('admin.information.update'), [
             '_method' => 'PUT',
-            'logo' => UploadedFile::fake()->image('logo.png', 400, 400),
+            'logo' => UploadedFile::fake()->createWithContent(
+                'logo.png',
+                UploadedFile::fake()->image("logo.{$format}", $size, $size)->getContent(),
+            ),
             'site_name' => 'Tienda Norte',
             'site_description' => 'Texto descriptivo del sitio.',
             'site_keywords' => 'tienda, ecommerce, peru',
@@ -174,7 +177,10 @@ test('site logo must have the required dimensions', function () {
     $response
         ->assertSessionHasErrors('logo')
         ->assertRedirect(route('admin.information.edit'));
-});
+})->with([
+    'incorrect dimensions' => ['png', 400],
+    'different format' => ['jpg', 512],
+]);
 
 test('existing logo can be removed', function () {
     Storage::fake('public');

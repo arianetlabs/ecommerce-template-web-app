@@ -103,13 +103,13 @@ class SiteSetting extends Model
      */
     public static function setMany(array $values): void
     {
+        $rows = [];
+
         foreach ($values as $key => $value) {
-            self::query()->updateOrCreate(
-                ['key' => $key],
-                ['value' => $value],
-            );
+            $rows[] = ['key' => $key, 'value' => $value];
         }
 
+        self::query()->upsert($rows, ['key'], ['value']);
         self::forgetCache();
     }
 

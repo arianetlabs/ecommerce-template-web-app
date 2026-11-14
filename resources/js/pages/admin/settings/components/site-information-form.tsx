@@ -20,8 +20,9 @@ interface SiteInformationFormProps {
 export default function SiteInformationForm({ settings }: SiteInformationFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const previewUrlRef = useRef<string | null>(null)
-  const [logoPreview, setLogoPreview] = useState<string | null>(settings.logo_url)
+  const [temporaryLogoUrl, setTemporaryLogoUrl] = useState<string | null>(null)
   const [removeLogo, setRemoveLogo] = useState(false)
+  const logoPreview = removeLogo ? null : (temporaryLogoUrl ?? settings.logo_url)
 
   useEffect(() => {
     return () => {
@@ -51,12 +52,12 @@ export default function SiteInformationForm({ settings }: SiteInformationFormPro
     previewUrlRef.current = objectUrl
 
     setRemoveLogo(false)
-    setLogoPreview(objectUrl)
+    setTemporaryLogoUrl(objectUrl)
   }
 
   function handleRemoveLogo(): void {
     clearTemporaryPreview()
-    setLogoPreview(null)
+    setTemporaryLogoUrl(null)
     setRemoveLogo(true)
 
     if (fileInputRef.current) {
@@ -66,7 +67,7 @@ export default function SiteInformationForm({ settings }: SiteInformationFormPro
 
   function handleFormReset(): void {
     clearTemporaryPreview()
-    setLogoPreview(settings.logo_url)
+    setTemporaryLogoUrl(null)
     setRemoveLogo(false)
 
     if (fileInputRef.current) {
@@ -82,6 +83,7 @@ export default function SiteInformationForm({ settings }: SiteInformationFormPro
       }}
       className="space-y-6"
       onReset={handleFormReset}
+      onSuccess={handleFormReset}
     >
       {({ errors, processing, progress }) => (
         <>
@@ -104,8 +106,8 @@ export default function SiteInformationForm({ settings }: SiteInformationFormPro
 
             <div className="min-w-0 flex-1 space-y-3">
               <div className="grid gap-1">
-                <Label className="text-sm font-medium">Logo del sitio</Label>
-                <p className="text-sm text-muted-foreground">PNG o SVG, minimo 512 x 512 px.</p>
+                <Label htmlFor="site-logo">Logo del sitio</Label>
+                <p className="text-sm text-muted-foreground">PNG o SVG de 512 × 512 px.</p>
               </div>
 
               <div className="flex flex-wrap gap-2">
@@ -137,10 +139,12 @@ export default function SiteInformationForm({ settings }: SiteInformationFormPro
                 </Button>
 
                 <input
+                  id="site-logo"
                   ref={fileInputRef}
                   accept=".png,.svg,image/png,image/svg+xml"
                   className="sr-only"
                   name="logo"
+                  tabIndex={-1}
                   type="file"
                   onChange={handleLogoChange}
                 />
