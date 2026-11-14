@@ -9,6 +9,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from '@/components/admin/ui/sidebar'
 import { useCurrentUrl } from '@/hooks/admin/use-current-url'
 import type { NavGroup } from '@/types/admin'
@@ -18,6 +19,7 @@ import { Link } from '@inertiajs/react'
 
 export function NavMain({ group }: { group: NavGroup[] }) {
   const { isCurrentUrl } = useCurrentUrl()
+  const { setOpenMobile } = useSidebar()
 
   return group.map(({ title, items }) => (
     <SidebarGroup key={title}>
@@ -58,7 +60,10 @@ export function NavMain({ group }: { group: NavGroup[] }) {
                               isActive={isCurrentUrl(subItem.href)}
                               asChild
                             >
-                              <Link href={subItem.href}>
+                              <Link
+                                href={subItem.href}
+                                onStart={() => setOpenMobile(false)}
+                              >
                                 <span>{subItem.title}</span>
                               </Link>
                             </SidebarMenuSubButton>
@@ -80,6 +85,7 @@ export function NavMain({ group }: { group: NavGroup[] }) {
                 >
                   <Link
                     href={item.href}
+                    onStart={() => setOpenMobile(false)}
                     prefetch
                   >
                     <HugeiconsIcon

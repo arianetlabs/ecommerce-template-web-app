@@ -3,7 +3,7 @@ import NavFooter from '@/components/admin/nav-footer'
 import { NavMain } from '@/components/admin/nav-main'
 import { NavUser } from '@/components/admin/nav-user'
 import SidebarLogoutButton from '@/components/admin/sidebar-logout-button'
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/admin/ui/sidebar'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/admin/ui/sidebar'
 import { dashboard } from '@/routes/admin'
 import { index as adminAdministrators } from '@/routes/admin/admins'
 import { index as adminBrands } from '@/routes/admin/brands'
@@ -85,6 +85,8 @@ const mainNavItems: NavGroup[] = [
 ]
 
 export function AppSidebar() {
+  const { setOpenMobile } = useSidebar()
+
   return (
     <Sidebar
       collapsible="icon"
@@ -99,6 +101,7 @@ export function AppSidebar() {
             >
               <Link
                 href={dashboard()}
+                onStart={() => setOpenMobile(false)}
                 prefetch
               >
                 <AppLogo />
