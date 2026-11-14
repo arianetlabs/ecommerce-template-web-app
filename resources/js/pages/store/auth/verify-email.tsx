@@ -1,12 +1,12 @@
-import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Form, Head } from '@inertiajs/react'
 import TextLink from '@/components/store/text-link'
 import { Alert, AlertDescription } from '@/components/store/ui/alert'
 import { Button } from '@/components/store/ui/button'
 import { Spinner } from '@/components/store/ui/spinner'
 import { logout } from '@/routes/store/auth'
 import { send } from '@/routes/store/verification'
+import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Form, Head } from '@inertiajs/react'
 
 export default function VerifyEmail({ status }: { status?: string }) {
   return (

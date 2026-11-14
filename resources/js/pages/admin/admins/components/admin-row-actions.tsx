@@ -1,7 +1,3 @@
-import { Key01Icon, MoreVerticalIcon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Form } from '@inertiajs/react'
-import { useState } from 'react'
 import { resetPassword as resetAdministratorPassword } from '@/actions/App/Http/Controllers/Admin/AdministratorController'
 import InputError from '@/components/admin/input-error'
 import PasswordInput from '@/components/admin/password-input'
@@ -11,6 +7,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Label } from '@/components/admin/ui/label'
 import { Spinner } from '@/components/admin/ui/spinner'
 import type { Administrator } from '@/types/entities'
+import { Key01Icon, MoreVerticalIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Form } from '@inertiajs/react'
+import { useState } from 'react'
 
 type AdminRowActionsProps = {
   administrator: Administrator

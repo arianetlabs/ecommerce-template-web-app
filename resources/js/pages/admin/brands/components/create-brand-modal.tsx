@@ -1,8 +1,3 @@
-import { Add01Icon, Delete02Icon, Image01Icon, Upload04Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Form } from '@inertiajs/react'
-import type { ChangeEvent } from 'react'
-import { useEffect, useRef, useState } from 'react'
 import { store as brandsStore } from '@/actions/App/Http/Controllers/Admin/BrandController'
 import InputError from '@/components/admin/input-error'
 import { Button } from '@/components/admin/ui/button'
@@ -11,6 +6,11 @@ import { Input } from '@/components/admin/ui/input'
 import { Label } from '@/components/admin/ui/label'
 import { Spinner } from '@/components/admin/ui/spinner'
 import { Textarea } from '@/components/admin/ui/textarea'
+import { Add01Icon, Delete02Icon, Image01Icon, Upload04Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Form } from '@inertiajs/react'
+import type { ChangeEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function CreateBrandModal() {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -113,8 +113,8 @@ export default function CreateBrandModal() {
                 <div className="grid gap-2">
                   <Label>Logo</Label>
 
-                  <div className="bg-background/60 flex flex-col gap-4 rounded-lg border p-4 sm:flex-row sm:items-center">
-                    <div className="aspect-3/2 bg-muted/40 flex h-32 shrink-0 items-center justify-center overflow-hidden rounded-md border md:h-24">
+                  <div className="flex flex-col gap-4 rounded-lg border bg-background/60 p-4 sm:flex-row sm:items-center">
+                    <div className="flex aspect-3/2 h-32 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted/40 md:h-24">
                       {logoPreview ? (
                         <img
                           alt="Vista previa del logo"
@@ -124,7 +124,7 @@ export default function CreateBrandModal() {
                       ) : (
                         <HugeiconsIcon
                           icon={Image01Icon}
-                          className="text-muted-foreground size-8"
+                          className="size-8 text-muted-foreground"
                           strokeWidth={1.5}
                         />
                       )}
@@ -132,8 +132,8 @@ export default function CreateBrandModal() {
 
                     <div className="min-w-0 flex-1 space-y-3">
                       <div className="grid gap-1">
-                        <p className="text-foreground text-sm font-medium">Vista previa</p>
-                        <p className="text-muted-foreground text-sm">Recomendado 600 x 400 px. JPG, JPEG, PNG, WebP o AVIF.</p>
+                        <p className="text-sm font-medium text-foreground">Vista previa</p>
+                        <p className="text-sm text-muted-foreground">Recomendado 600 x 400 px. JPG, JPEG, PNG, WebP o AVIF.</p>
                       </div>
 
                       <div className="flex flex-wrap gap-2">
@@ -194,13 +194,13 @@ export default function CreateBrandModal() {
 
               {progress && (
                 <div className="grid gap-2">
-                  <div className="text-muted-foreground flex items-center justify-between text-xs">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>Subiendo logo</span>
                     <span>{Math.round(progress.percentage ?? 0)}%</span>
                   </div>
-                  <div className="bg-muted h-2 overflow-hidden rounded-full">
+                  <div className="h-2 overflow-hidden rounded-full bg-muted">
                     <div
-                      className="bg-primary h-full rounded-full transition-all"
+                      className="h-full rounded-full bg-primary transition-all"
                       style={{ width: `${progress.percentage ?? 0}%` }}
                     />
                   </div>

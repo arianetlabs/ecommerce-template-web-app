@@ -1,3 +1,5 @@
+import { Button } from '@/components/admin/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/admin/ui/select'
 import {
   LeftToRightBlockQuoteIcon,
   LeftToRightListBulletIcon,
@@ -27,8 +29,6 @@ import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { Button } from '@/components/admin/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/admin/ui/select'
 
 type ProductRichTextEditorProps = {
   value: string
@@ -168,7 +168,7 @@ function BlockTypeSelect({ editor, value }: { editor: EditorInstance | null; val
     >
       <SelectTrigger
         aria-label="Formato del texto"
-        className="w-30 h-8"
+        className="h-8 w-30"
         size="sm"
       >
         <SelectValue />
@@ -247,7 +247,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
   }
 
   return (
-    <div className="bg-muted/30 flex flex-wrap items-center gap-1 border-b p-2">
+    <div className="flex flex-wrap items-center gap-1 border-b bg-muted/30 p-2">
       <EditorButton
         disabled={!state.canUndo}
         label="Deshacer"
@@ -269,7 +269,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         />
       </EditorButton>
 
-      <div className="bg-border mx-1 h-6 w-px" />
+      <div className="mx-1 h-6 w-px bg-border" />
 
       <BlockTypeSelect
         editor={editor}
@@ -326,7 +326,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         />
       </EditorButton>
 
-      <div className="bg-border mx-1 h-6 w-px" />
+      <div className="mx-1 h-6 w-px bg-border" />
 
       <EditorButton
         active={state.isLink}
@@ -399,7 +399,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         />
       </EditorButton>
 
-      <div className="bg-border mx-1 h-6 w-px" />
+      <div className="mx-1 h-6 w-px bg-border" />
 
       <EditorButton
         active={state.isLeftAligned}
@@ -449,7 +449,7 @@ function EditorSurface({ editor, value }: { editor: EditorInstance | null; value
   return (
     <div
       aria-busy={editor === null}
-      className="bg-background shadow-xs focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 overflow-hidden rounded-md border"
+      className="overflow-hidden rounded-md border bg-background shadow-xs focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50"
     >
       <EditorToolbar
         key={editor === null ? 'initial' : 'ready'}

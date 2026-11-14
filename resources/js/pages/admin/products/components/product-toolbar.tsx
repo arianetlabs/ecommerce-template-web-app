@@ -1,11 +1,11 @@
+import { Button } from '@/components/admin/ui/button'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/admin/ui/input-group'
+import { create as productsCreate, index as productsIndex } from '@/routes/admin/products'
 import { Add01Icon, Cancel01Icon, Search01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link, router } from '@inertiajs/react'
 import { useState } from 'react'
 import type { SubmitEvent } from 'react'
-import { Button } from '@/components/admin/ui/button'
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/admin/ui/input-group'
-import { create as productsCreate, index as productsIndex } from '@/routes/admin/products'
 
 type ProductToolbarProps = {
   initialSearch: string

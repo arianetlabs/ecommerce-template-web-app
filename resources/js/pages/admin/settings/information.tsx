@@ -1,8 +1,3 @@
-import { Delete02Icon, Image01Icon, RefreshIcon, SaveIcon, Upload04Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Form, Head } from '@inertiajs/react'
-import type { ChangeEvent } from 'react'
-import { useEffect, useRef, useState } from 'react'
 import InformationController from '@/actions/App/Http/Controllers/Admin/Settings/InformationController'
 import Heading from '@/components/admin/heading'
 import InputError from '@/components/admin/input-error'
@@ -14,6 +9,11 @@ import { Spinner } from '@/components/admin/ui/spinner'
 import { Textarea } from '@/components/admin/ui/textarea'
 import { edit as editInformation } from '@/routes/admin/information'
 import type { SiteSettings } from '@/types'
+import { Delete02Icon, Image01Icon, RefreshIcon, SaveIcon, Upload04Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Form, Head } from '@inertiajs/react'
+import type { ChangeEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface InformationProps {
   settings: SiteSettings
@@ -97,8 +97,8 @@ const Information = ({ settings }: InformationProps) => {
         >
           {({ errors, processing, progress }) => (
             <>
-              <section className="bg-background/60 flex items-start gap-4">
-                <div className="h-22 w-22 flex shrink-0 items-center justify-center overflow-hidden rounded-lg">
+              <section className="flex items-start gap-4 bg-background/60">
+                <div className="flex h-22 w-22 shrink-0 items-center justify-center overflow-hidden rounded-lg">
                   {logoPreview ? (
                     <img
                       alt="Logo del sitio"
@@ -108,7 +108,7 @@ const Information = ({ settings }: InformationProps) => {
                   ) : (
                     <HugeiconsIcon
                       icon={Image01Icon}
-                      className="text-muted-foreground size-8"
+                      className="size-8 text-muted-foreground"
                       strokeWidth={1.5}
                     />
                   )}
@@ -117,7 +117,7 @@ const Information = ({ settings }: InformationProps) => {
                 <div className="min-w-0 flex-1 space-y-3">
                   <div className="grid gap-1">
                     <Label className="text-sm font-medium">Logo del sitio</Label>
-                    <p className="text-muted-foreground text-sm">PNG o SVG, minimo 512 x 512 px.</p>
+                    <p className="text-sm text-muted-foreground">PNG o SVG, minimo 512 x 512 px.</p>
                   </div>
 
                   <div className="flex flex-wrap gap-2">
@@ -170,13 +170,13 @@ const Information = ({ settings }: InformationProps) => {
 
               {progress && (
                 <div className="grid gap-2">
-                  <div className="text-muted-foreground flex items-center justify-between text-xs">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>Subiendo logo</span>
                     <span>{Math.round(progress.percentage ?? 0)}%</span>
                   </div>
-                  <div className="bg-muted h-2 overflow-hidden rounded-full">
+                  <div className="h-2 overflow-hidden rounded-full bg-muted">
                     <div
-                      className="bg-primary h-full rounded-full transition-all"
+                      className="h-full rounded-full bg-primary transition-all"
                       style={{ width: `${progress.percentage ?? 0}%` }}
                     />
                   </div>
@@ -299,7 +299,7 @@ const Information = ({ settings }: InformationProps) => {
                   required
                 />
 
-                <p className="text-muted-foreground text-xs">Se guardan separadas por comas.</p>
+                <p className="text-xs text-muted-foreground">Se guardan separadas por comas.</p>
                 <InputError message={errors.site_keywords} />
               </div>
 

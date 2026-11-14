@@ -1,7 +1,3 @@
-import { Edit02Icon, PackageAddIcon, SaveIcon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Head, Link, useForm } from '@inertiajs/react'
-import type { SubmitEvent } from 'react'
 import { store as productsStore, update as productsUpdate } from '@/actions/App/Http/Controllers/Admin/ProductController'
 import Heading from '@/components/admin/heading'
 import InputError from '@/components/admin/input-error'
@@ -18,6 +14,10 @@ import ProductImageUploader from '@/pages/admin/products/components/product-imag
 import ProductRichTextEditor from '@/pages/admin/products/components/product-rich-text-editor'
 import { index as productsIndex } from '@/routes/admin/products'
 import type { EditableProduct, ProductCatalogOption, ProductImageSlot } from '@/types/admin'
+import { Edit02Icon, PackageAddIcon, SaveIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Head, Link, useForm } from '@inertiajs/react'
+import type { SubmitEvent } from 'react'
 
 export type ProductFormPageProps = {
   brands: ProductCatalogOption[]
@@ -298,13 +298,13 @@ export default function ProductFormPage({ brands, categories, product }: Product
                   <label
                     key={flag.value}
                     className={cn(
-                      'hover:bg-muted/40 flex cursor-pointer gap-3 rounded-lg border p-4 transition-colors',
+                      'flex cursor-pointer gap-3 rounded-lg border p-4 transition-colors hover:bg-muted/40',
                       data.flag === flag.value && 'border-foreground bg-muted/40',
                     )}
                   >
                     <input
                       checked={data.flag === flag.value}
-                      className="accent-foreground mt-1"
+                      className="mt-1 accent-foreground"
                       name="flag"
                       onChange={() => setData('flag', flag.value)}
                       type="radio"
@@ -312,7 +312,7 @@ export default function ProductFormPage({ brands, categories, product }: Product
                     />
                     <span>
                       <span className="block font-medium">{flag.label}</span>
-                      <span className="text-muted-foreground mt-1 block text-xs">{flag.description}</span>
+                      <span className="mt-1 block text-xs text-muted-foreground">{flag.description}</span>
                     </span>
                   </label>
                 ))}
@@ -333,20 +333,20 @@ export default function ProductFormPage({ brands, categories, product }: Product
                   />
                   <span>
                     <span className="block font-medium">Guardar como borrador</span>
-                    <span className="text-muted-foreground mt-1 block text-sm">El producto no será visible en la tienda.</span>
+                    <span className="mt-1 block text-sm text-muted-foreground">El producto no será visible en la tienda.</span>
                   </span>
                 </label>
                 <InputError message={errors.is_draft} />
 
                 {progress && (
                   <div className="grid gap-2">
-                    <div className="text-muted-foreground flex justify-between text-xs">
+                    <div className="flex justify-between text-xs text-muted-foreground">
                       <span>Subiendo imágenes</span>
                       <span>{progress.percentage}%</span>
                     </div>
-                    <div className="bg-muted h-1.5 overflow-hidden rounded-full">
+                    <div className="h-1.5 overflow-hidden rounded-full bg-muted">
                       <div
-                        className="bg-primary h-full transition-all"
+                        className="h-full bg-primary transition-all"
                         style={{ width: `${progress.percentage}%` }}
                       />
                     </div>

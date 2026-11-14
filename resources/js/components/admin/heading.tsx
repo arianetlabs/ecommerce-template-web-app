@@ -1,7 +1,7 @@
-import type { IconSvgElement } from '@hugeicons/react'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { Badge } from '@/components/admin/ui/badge'
 import { cn } from '@/lib/utils'
+import type { IconSvgElement } from '@hugeicons/react'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 interface HeadingProps {
   title: string
@@ -33,7 +33,7 @@ export default function Heading({ title, description, badgeIcon, badgeLabel, var
       )}
       <div className={cn(!isSmall && 'space-y-2')}>
         <HeadingTag className={cn(isSmall ? 'text-base font-medium' : 'text-3xl font-semibold tracking-tight')}>{title}</HeadingTag>
-        {description && <p className="text-muted-foreground text-sm">{description}</p>}
+        {description && <p className="text-sm text-muted-foreground">{description}</p>}
       </div>
     </header>
   )

@@ -1,4 +1,3 @@
-import { Form, Head } from '@inertiajs/react'
 import InputError from '@/components/store/input-error'
 import PasswordInput from '@/components/store/password-input'
 import TextLink from '@/components/store/text-link'
@@ -10,6 +9,7 @@ import { Spinner } from '@/components/store/ui/spinner'
 import { login } from '@/routes/store/auth'
 import { store } from '@/routes/store/auth/register'
 import type { SelectOption } from '@/types'
+import { Form, Head } from '@inertiajs/react'
 
 interface RegisterProps {
   document_type_options: SelectOption[]
@@ -196,7 +196,7 @@ export default function Register({ document_type_options, passwordRules }: Regis
               </Button>
             </div>
 
-            <div className="text-muted-foreground text-center text-sm">
+            <div className="text-center text-sm text-muted-foreground">
               ¿Ya tienes una cuenta?{' '}
               <TextLink
                 href={login()}

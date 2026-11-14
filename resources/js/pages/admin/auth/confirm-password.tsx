@@ -1,10 +1,10 @@
-import { Form, Head } from '@inertiajs/react'
 import InputError from '@/components/admin/input-error'
 import PasswordInput from '@/components/admin/password-input'
 import { Button } from '@/components/admin/ui/button'
 import { Label } from '@/components/admin/ui/label'
 import { Spinner } from '@/components/admin/ui/spinner'
 import { store } from '@/routes/admin/auth/password/confirm'
+import { Form, Head } from '@inertiajs/react'
 
 export default function ConfirmPassword() {
   return (

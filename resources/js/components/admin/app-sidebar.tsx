@@ -1,5 +1,3 @@
-import { DashboardBrowsingIcon, GridViewIcon, Package01Icon, Settings01Icon, ShoppingBag01Icon, Tag01Icon, UserMultiple02Icon } from '@hugeicons/core-free-icons'
-import { Link } from '@inertiajs/react'
 import AppLogo from '@/components/admin/app-logo'
 import NavFooter from '@/components/admin/nav-footer'
 import { NavMain } from '@/components/admin/nav-main'
@@ -15,6 +13,8 @@ import { edit as editInformation } from '@/routes/admin/information'
 import { index as adminIndexProducts } from '@/routes/admin/products'
 import { create as adminCreateProducts } from '@/routes/admin/products'
 import type { NavGroup } from '@/types/admin'
+import { DashboardBrowsingIcon, GridViewIcon, Package01Icon, Settings01Icon, ShoppingBag01Icon, Tag01Icon, UserMultiple02Icon } from '@hugeicons/core-free-icons'
+import { Link } from '@inertiajs/react'
 
 const mainNavItems: NavGroup[] = [
   {

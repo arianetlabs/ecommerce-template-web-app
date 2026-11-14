@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use League\Flysystem\UnableToWriteFile;
 
 class InformationController extends Controller
 {
@@ -66,7 +67,13 @@ class InformationController extends Controller
         $extension = strtolower((string) ($logo->getClientOriginalExtension() ?: $logo->extension() ?: 'png'));
         $fileName = Str::uuid()->toString().'.'.$extension;
 
-        return $logo->storePubliclyAs('site-settings', $fileName, 'public');
+        $path = $logo->storePubliclyAs('site-settings', $fileName, 'public');
+
+        if ($path === false) {
+            throw UnableToWriteFile::atLocation('site-settings/'.$fileName);
+        }
+
+        return $path;
     }
 
     /**

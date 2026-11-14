@@ -1,5 +1,5 @@
-import { usePage } from '@inertiajs/react'
 import type { Customer } from '@/types/entities'
+import { usePage } from '@inertiajs/react'
 
 export function useAuthenticatedCustomer(): Customer {
   const user = usePage<{ auth: { user: Customer | null } }>().props.auth.user

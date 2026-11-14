@@ -9,11 +9,11 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "^8.4",
+    "php": "^8.4.1",
     "cviebrock/eloquent-sluggable": "^13.0",
     "inertiajs/inertia-laravel": "^3.0",
     "laravel/chisel": "^0.1.0",
-    "laravel/framework": "^13.7",
+    "laravel/framework": "^13.17",
     "laravel/tinker": "^3.0",
     "laravel/wayfinder": "^0.1.14",
     "ext-imagick": "*",
@@ -55,7 +55,7 @@
     ],
     "dev": [
       "Composer\\Config::disableProcessTimeout",
-      "pnpm dlx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"pnpm run dev\" --names='server,queue,vite'"
+      "@php artisan dev"
     ],
     "lint": [
       "pint --parallel"
@@ -65,13 +65,12 @@
     ],
     "ci:check": [
       "Composer\\Config::disableProcessTimeout",
-      "npm run lint:check",
-      "npm run format:check",
-      "npm run types:check",
+      "pnpm run check",
+      "pnpm run types:check",
       "@test"
     ],
     "types:check": [
-      "phpstan analyse"
+      "phpstan analyse --memory-limit=512M"
     ],
     "test": [
       "@php artisan config:clear --ansi",

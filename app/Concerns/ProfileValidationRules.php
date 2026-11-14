@@ -6,6 +6,8 @@ use App\Enums\UserDocumentType;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\In;
+use Illuminate\Validation\Rules\Unique;
 
 trait ProfileValidationRules
 {
@@ -14,7 +16,7 @@ trait ProfileValidationRules
      *
      * @param  class-string<Model>  $model
      * @param  array<string, mixed>  $input
-     * @return array<string, array<int, ValidationRule|array<mixed>|string>>
+     * @return array<string, array<int, In|Unique|ValidationRule|array<mixed>|string>>
      */
     protected function profileRules(string $model, ?string $userId = null, array $input = []): array
     {
@@ -29,7 +31,7 @@ trait ProfileValidationRules
      * Get validation rules for identity fields shared by customers and administrators.
      *
      * @param  class-string<Model>  $model
-     * @return array<string, array<int, ValidationRule|array<mixed>|string>>
+     * @return array<string, array<int, In|Unique|ValidationRule|array<mixed>|string>>
      */
     protected function identityRules(string $model, ?string $userId = null): array
     {
@@ -44,7 +46,7 @@ trait ProfileValidationRules
     /**
      * Get the validation rules for document type.
      *
-     * @return array<int, ValidationRule|array<mixed>|string>
+     * @return array<int, In|ValidationRule|array<mixed>|string>
      */
     protected function documentTypeRules(): array
     {
@@ -56,7 +58,7 @@ trait ProfileValidationRules
      *
      * @param  class-string<Model>  $model
      * @param  array<string, mixed>  $input
-     * @return array<int, ValidationRule|array<mixed>|string>
+     * @return array<int, Unique|ValidationRule|array<mixed>|string>
      */
     protected function documentNumberRules(string $model, array $input = [], ?string $userId = null): array
     {
@@ -121,7 +123,7 @@ trait ProfileValidationRules
      * Get the validation rules used to validate user emails.
      *
      * @param  class-string<Model>  $model
-     * @return array<int, ValidationRule|array<mixed>|string>
+     * @return array<int, Unique|ValidationRule|array<mixed>|string>
      */
     protected function emailRules(string $model, ?string $userId = null): array
     {

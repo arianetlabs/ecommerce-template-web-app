@@ -1,5 +1,3 @@
-import { Form, Head } from '@inertiajs/react'
-import { useRef } from 'react'
 import SecurityController from '@/actions/App/Http/Controllers/Admin/Settings/SecurityController'
 import Heading from '@/components/admin/heading'
 import InputError from '@/components/admin/input-error'
@@ -8,6 +6,8 @@ import { Button } from '@/components/admin/ui/button'
 import { Label } from '@/components/admin/ui/label'
 import { Spinner } from '@/components/admin/ui/spinner'
 import { edit } from '@/routes/admin/security'
+import { Form, Head } from '@inertiajs/react'
+import { useRef } from 'react'
 
 type Props = {
   passwordRules: string

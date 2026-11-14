@@ -10,28 +10,25 @@ use Illuminate\Support\Facades\Storage;
 class SiteSettingsResource extends JsonResource
 {
     /**
+     * @param  array<int, array{key: string, value: string|null}>  $resource
+     */
+    public function __construct(array $resource)
+    {
+        parent::__construct($resource);
+    }
+
+    /**
      * Transform the resource into an array.
      *
      * @return array<string, string|null>
      */
     public function toArray(Request $request): array
     {
-        $settings = collect($this->resource)
-            ->mapWithKeys(function (mixed $setting): array {
-                if (is_array($setting)) {
-                    return [
-                        (string) ($setting['key'] ?? '') => $setting['value'] ?? null,
-                    ];
-                }
-
-                return [
-                    (string) ($setting->key ?? '') => $setting->value ?? null,
-                ];
-            });
+        $settings = array_column($this->resource, 'value', 'key');
 
         $values = collect(SiteSetting::defaults())->mapWithKeys(
             fn (mixed $default, string $key): array => [
-                $key => $settings->get($key, $default),
+                $key => array_key_exists($key, $settings) ? $settings[$key] : $default,
             ],
         );
 

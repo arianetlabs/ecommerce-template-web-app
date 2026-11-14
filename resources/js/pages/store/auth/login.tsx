@@ -1,6 +1,3 @@
-import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Form, Head } from '@inertiajs/react'
 import InputError from '@/components/store/input-error'
 import PasswordInput from '@/components/store/password-input'
 import TextLink from '@/components/store/text-link'
@@ -13,6 +10,9 @@ import { Spinner } from '@/components/store/ui/spinner'
 import { register } from '@/routes/store/auth'
 import { store } from '@/routes/store/auth/login'
 import { request } from '@/routes/store/auth/password'
+import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Form, Head } from '@inertiajs/react'
 
 type Props = {
   status?: string
@@ -93,7 +93,7 @@ export default function Login({ status, canResetPassword }: Props) {
               </Button>
             </div>
 
-            <div className="text-muted-foreground text-center text-sm">
+            <div className="text-center text-sm text-muted-foreground">
               ¿No tienes una cuenta?{' '}
               <TextLink
                 href={register()}

@@ -1,5 +1,3 @@
-import { GridViewIcon } from '@hugeicons/core-free-icons'
-import { Head, Link } from '@inertiajs/react'
 import Heading from '@/components/admin/heading'
 import { Badge } from '@/components/admin/ui/badge'
 import { Card, CardContent } from '@/components/admin/ui/card'
@@ -8,6 +6,8 @@ import CreateCategoryModal from '@/pages/admin/categories/components/create-cate
 import { index as categoriesIndex, subcategories } from '@/routes/admin/categories'
 import type { SelectOption } from '@/types'
 import type { Category, CategoryParent } from '@/types/entities'
+import { GridViewIcon } from '@hugeicons/core-free-icons'
+import { Head, Link } from '@inertiajs/react'
 
 type CategoriesIndexProps = {
   categories: Category[]
@@ -55,10 +55,10 @@ export default function CategoriesIndex({ categories, parent_category, category_
           </div>
         </div>
 
-        <Card className="border-sidebar-border/70 dark:border-sidebar-border gap-0 p-0 shadow-none">
+        <Card className="gap-0 border-sidebar-border/70 p-0 shadow-none dark:border-sidebar-border">
           <CardContent className="px-0">
             <div className="overflow-x-auto">
-              <table className="divide-border min-w-full table-fixed divide-y text-sm">
+              <table className="min-w-full table-fixed divide-y divide-border text-sm">
                 <colgroup>
                   <col className="w-[9ch]" />
                   <col className="min-w-60" />
@@ -75,11 +75,11 @@ export default function CategoriesIndex({ categories, parent_category, category_
                     <th className="px-6 py-3.5 text-right font-medium">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="divide-border bg-background divide-y">
+                <tbody className="divide-y divide-border bg-background">
                   {categories.length === 0 ? (
                     <tr>
                       <td
-                        className="text-muted-foreground px-6 py-10 text-center"
+                        className="px-6 py-10 text-center text-muted-foreground"
                         colSpan={6}
                       >
                         No hay categorías registradas.
@@ -92,21 +92,21 @@ export default function CategoriesIndex({ categories, parent_category, category_
                       return (
                         <tr
                           key={category.id}
-                          className="hover:bg-muted/30 align-middle transition-colors"
+                          className="align-middle transition-colors hover:bg-muted/30"
                         >
-                          <td className="text-foreground whitespace-nowrap px-6 py-4 font-mono">{category.code}</td>
-                          <td className="text-foreground px-6 py-4 font-medium">{category.name}</td>
+                          <td className="px-6 py-4 font-mono whitespace-nowrap text-foreground">{category.code}</td>
+                          <td className="px-6 py-4 font-medium text-foreground">{category.name}</td>
                           <td className="px-6 py-4 text-center">
                             <Badge variant={status.variant}>{status.label}</Badge>
                           </td>
                           <td className="px-6 py-4 text-center">
-                            <span className="text-foreground whitespace-nowrap text-sm">
+                            <span className="text-sm whitespace-nowrap text-foreground">
                               {category.children_count} subcategoría{category.children_count === 1 ? '' : 's'}{' '}
                               <span>
                                 (
                                 <Link
                                   href={subcategories({ category: category.id })}
-                                  className="text-primary hover:text-primary/80 font-medium transition-colors hover:underline dark:text-white dark:hover:text-white/80"
+                                  className="font-medium text-primary transition-colors hover:text-primary/80 hover:underline dark:text-white dark:hover:text-white/80"
                                   aria-label={`Ver subcategorías de ${category.name}`}
                                   prefetch
                                 >

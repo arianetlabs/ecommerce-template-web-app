@@ -1,6 +1,3 @@
-import { Logout01Icon, Settings01Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Link } from '@inertiajs/react'
 import { DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/admin/ui/dropdown-menu'
 import { UserInfo } from '@/components/admin/user-info'
 import { useLogoutCleanup } from '@/hooks/use-logout-cleanup'
@@ -8,6 +5,9 @@ import { useMobileNavigation } from '@/hooks/use-mobile-navigation'
 import { logout } from '@/routes/admin/auth'
 import { edit } from '@/routes/admin/profile'
 import type { Administrator } from '@/types/entities'
+import { Logout01Icon, Settings01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Link } from '@inertiajs/react'
 
 interface UserMenuContentProps {
   user: Administrator

@@ -1,5 +1,5 @@
-import { usePage } from '@inertiajs/react'
 import type { Administrator } from '@/types/entities'
+import { usePage } from '@inertiajs/react'
 
 export function useAuthenticatedAdministrator(): Administrator {
   const user = usePage<{ auth: { user: Administrator | null } }>().props.auth.user

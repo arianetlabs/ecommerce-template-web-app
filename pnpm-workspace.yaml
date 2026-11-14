@@ -1,8 +1,8 @@
 packages:
   - '.'
 
-allowBuilds:
-  unrs-resolver: true
+overrides:
+  vite: npm:@voidzero-dev/vite-plus-core@1.4.0
 
 publicHoistPattern:
   - '@inertiajs/core'

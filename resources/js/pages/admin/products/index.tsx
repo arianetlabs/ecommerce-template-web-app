@@ -1,5 +1,3 @@
-import { Package01Icon } from '@hugeicons/core-free-icons'
-import { Head } from '@inertiajs/react'
 import Heading from '@/components/admin/heading'
 import { Card, CardContent } from '@/components/admin/ui/card'
 import ProductPagination from '@/pages/admin/products/components/product-pagination'
@@ -7,6 +5,8 @@ import ProductTable from '@/pages/admin/products/components/product-table'
 import ProductToolbar from '@/pages/admin/products/components/product-toolbar'
 import { index as productsIndex } from '@/routes/admin/products'
 import type { PaginatedProducts } from '@/types/admin'
+import { Package01Icon } from '@hugeicons/core-free-icons'
+import { Head } from '@inertiajs/react'
 
 type ProductsIndexProps = {
   products: PaginatedProducts
@@ -30,7 +30,7 @@ export default function ProductsIndex({ products, filters }: ProductsIndexProps)
 
         <ProductToolbar initialSearch={filters.search} />
 
-        <Card className="border-sidebar-border/70 dark:border-sidebar-border gap-0 p-0 shadow-none">
+        <Card className="gap-0 border-sidebar-border/70 p-0 shadow-none dark:border-sidebar-border">
           <CardContent className="px-0">
             <ProductTable
               hasSearch={filters.search !== ''}

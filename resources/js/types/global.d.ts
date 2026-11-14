@@ -2,7 +2,6 @@ import type { Auth } from '@/types/auth'
 import type { SiteSettings } from '@/types/site-settings'
 
 declare module 'react' {
-  // eslint-disable-next-line unused-imports/no-unused-vars
   interface InputHTMLAttributes<T> {
     passwordrules?: string
   }

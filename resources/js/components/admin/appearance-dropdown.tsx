@@ -1,11 +1,11 @@
-import { ComputerIcon, Moon02Icon, Sun01Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import type { IconSvgElement } from '@hugeicons/react'
-import { useMemo } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/admin/ui/dropdown-menu'
 import { SidebarMenuButton } from '@/components/admin/ui/sidebar'
 import { useAppearance } from '@/hooks/use-appearance'
 import type { Appearance } from '@/hooks/use-appearance'
+import { ComputerIcon, Moon02Icon, Sun01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import type { IconSvgElement } from '@hugeicons/react'
+import { useMemo } from 'react'
 
 function AppearanceDropdown() {
   const { appearance, updateAppearance } = useAppearance()

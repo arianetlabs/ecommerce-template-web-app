@@ -7,6 +7,12 @@ test('admin login screen can be rendered', function () {
     $this->get(route('admin.auth.login'))->assertOk();
 });
 
+test('admin login validation returns JSON when requested', function () {
+    $this->postJson(route('admin.auth.login.store'))
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['email', 'password']);
+});
+
 test('administrators can authenticate using the admin guard', function () {
     $administrator = Administrator::factory()->create();
 

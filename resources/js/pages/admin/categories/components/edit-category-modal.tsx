@@ -1,7 +1,3 @@
-import { Edit02Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Form } from '@inertiajs/react'
-import { useState } from 'react'
 import { update as categoriesUpdate } from '@/actions/App/Http/Controllers/Admin/CategoryController'
 import InputError from '@/components/admin/input-error'
 import { Button } from '@/components/admin/ui/button'
@@ -14,6 +10,10 @@ import { Textarea } from '@/components/admin/ui/textarea'
 import { cn } from '@/lib/utils'
 import type { SelectOption } from '@/types'
 import type { Category } from '@/types/entities'
+import { Edit02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Form } from '@inertiajs/react'
+import { useState } from 'react'
 
 const ROOT_PARENT_VALUE = '__root__'
 

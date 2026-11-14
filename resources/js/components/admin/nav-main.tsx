@@ -1,6 +1,3 @@
-import { ChevronRightIcon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Link } from '@inertiajs/react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/admin/ui/collapsible'
 import {
   SidebarGroup,
@@ -15,8 +12,11 @@ import {
 } from '@/components/admin/ui/sidebar'
 import { useCurrentUrl } from '@/hooks/use-current-url'
 import type { NavGroup } from '@/types/admin'
+import { ChevronRightIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Link } from '@inertiajs/react'
 
-export function NavMain({ group = [] }: { group: NavGroup[] }) {
+export function NavMain({ group }: { group: NavGroup[] }) {
   const { isCurrentUrl } = useCurrentUrl()
 
   return group.map(({ title, items }) => (

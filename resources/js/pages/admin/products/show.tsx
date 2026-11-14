@@ -1,6 +1,3 @@
-import { ArrowLeft01Icon, Edit02Icon, Package01Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Head, Link } from '@inertiajs/react'
 import Heading from '@/components/admin/heading'
 import { Button } from '@/components/admin/ui/button'
 import ProductDescription from '@/pages/admin/products/components/product-description'
@@ -8,6 +5,9 @@ import ProductDetailOverview from '@/pages/admin/products/components/product-det
 import ProductImageGallery from '@/pages/admin/products/components/product-image-gallery'
 import { edit as productsEdit, index as productsIndex, show as productsShow } from '@/routes/admin/products'
 import type { Product } from '@/types/entities'
+import { ArrowLeft01Icon, Edit02Icon, Package01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Head, Link } from '@inertiajs/react'
 
 type ProductsShowProps = {
   product: Product

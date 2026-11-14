@@ -1,5 +1,3 @@
-import { ShoppingBag01Icon } from '@hugeicons/core-free-icons'
-import { Head } from '@inertiajs/react'
 import Heading from '@/components/admin/heading'
 import { Avatar, AvatarFallback } from '@/components/admin/ui/avatar'
 import { Card, CardContent } from '@/components/admin/ui/card'
@@ -8,6 +6,8 @@ import { dateFormatter } from '@/lib/admin/date'
 import CustomerRowActions from '@/pages/admin/customers/components/customer-row-actions'
 import { index as customersIndex } from '@/routes/admin/customers'
 import type { Customer } from '@/types/entities'
+import { ShoppingBag01Icon } from '@hugeicons/core-free-icons'
+import { Head } from '@inertiajs/react'
 
 type CustomersIndexProps = {
   customers: Customer[]
@@ -53,10 +53,10 @@ export default function CustomersIndex({ customers }: CustomersIndexProps) {
           </div>
         </div>
 
-        <Card className="border-sidebar-border/70 dark:border-sidebar-border gap-0 p-0 shadow-none">
+        <Card className="gap-0 border-sidebar-border/70 p-0 shadow-none dark:border-sidebar-border">
           <CardContent className="px-0">
             <div className="overflow-x-auto">
-              <table className="divide-border min-w-full table-fixed divide-y text-sm">
+              <table className="min-w-full table-fixed divide-y divide-border text-sm">
                 <colgroup>
                   <col />
                   <col />
@@ -71,11 +71,11 @@ export default function CustomersIndex({ customers }: CustomersIndexProps) {
                     <th className="px-6 py-3.5 text-right font-medium">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="divide-border bg-background divide-y">
+                <tbody className="divide-y divide-border bg-background">
                   {customers.length === 0 ? (
                     <tr>
                       <td
-                        className="text-muted-foreground px-6 py-10 text-center"
+                        className="px-6 py-10 text-center text-muted-foreground"
                         colSpan={4}
                       >
                         No hay clientes registrados.
@@ -85,7 +85,7 @@ export default function CustomersIndex({ customers }: CustomersIndexProps) {
                     customers.map((customer) => (
                       <tr
                         key={customer.id}
-                        className="hover:bg-muted/30 align-middle transition-colors"
+                        className="align-middle transition-colors hover:bg-muted/30"
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
@@ -93,13 +93,13 @@ export default function CustomersIndex({ customers }: CustomersIndexProps) {
                               <AvatarFallback>{getInitials(customer.name, customer.last_name)}</AvatarFallback>
                             </Avatar>
                             <div>
-                              <p className="text-foreground text-nowrap font-medium">{formatFullName(customer)}</p>
-                              <p className="text-muted-foreground text-nowrap text-xs">{formatDocument(customer)}</p>
+                              <p className="font-medium text-nowrap text-foreground">{formatFullName(customer)}</p>
+                              <p className="text-xs text-nowrap text-muted-foreground">{formatDocument(customer)}</p>
                             </div>
                           </div>
                         </td>
-                        <td className="text-muted-foreground text-nowrap px-6 py-4">{customer.email}</td>
-                        <td className="text-muted-foreground px-6 py-4 text-center">{formatDate(customer.created_at)}</td>
+                        <td className="px-6 py-4 text-nowrap text-muted-foreground">{customer.email}</td>
+                        <td className="px-6 py-4 text-center text-muted-foreground">{formatDate(customer.created_at)}</td>
                         <td className="px-6 py-4 text-right">
                           <CustomerRowActions customer={customer} />
                         </td>

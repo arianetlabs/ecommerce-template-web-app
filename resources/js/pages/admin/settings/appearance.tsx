@@ -1,7 +1,7 @@
-import { Head } from '@inertiajs/react'
 import AppearanceTabs from '@/components/admin/appearance-tabs'
 import Heading from '@/components/admin/heading'
 import { edit as editAppearance } from '@/routes/admin/appearance'
+import { Head } from '@inertiajs/react'
 
 export default function Appearance() {
   return (

@@ -1,11 +1,11 @@
-import { UnfoldMoreIcon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/admin/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/admin/ui/sidebar'
 import { UserInfo } from '@/components/admin/user-info'
 import { UserMenuContent } from '@/components/admin/user-menu-content'
 import { useAuthenticatedAdministrator } from '@/hooks/admin/use-authenticated-administrator'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { UnfoldMoreIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 interface NavUserProps {
   className?: string
@@ -23,7 +23,7 @@ export function NavUser({ className = '' }: NavUserProps) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent group"
+              className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent"
               data-test="sidebar-menu-button"
             >
               <UserInfo

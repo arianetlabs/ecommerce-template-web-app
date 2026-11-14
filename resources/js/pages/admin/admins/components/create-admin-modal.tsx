@@ -1,7 +1,3 @@
-import { UserAdd01Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Form } from '@inertiajs/react'
-import { useState } from 'react'
 import { store as storeAdministrator } from '@/actions/App/Http/Controllers/Admin/AdministratorController'
 import InputError from '@/components/admin/input-error'
 import { Button } from '@/components/admin/ui/button'
@@ -10,6 +6,10 @@ import { Input } from '@/components/admin/ui/input'
 import { Label } from '@/components/admin/ui/label'
 import { Spinner } from '@/components/admin/ui/spinner'
 import { cn } from '@/lib/utils'
+import { UserAdd01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Form } from '@inertiajs/react'
+import { useState } from 'react'
 
 type CreateAdminModalProps = {
   triggerClassName?: string

@@ -1,10 +1,10 @@
-import { UnfoldMoreIcon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { Button } from '@/components/admin/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/admin/ui/dropdown-menu'
 import { UserInfo } from '@/components/admin/user-info'
 import { UserMenuContent } from '@/components/admin/user-menu-content'
 import { useAuthenticatedAdministrator } from '@/hooks/admin/use-authenticated-administrator'
+import { UnfoldMoreIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 interface HeaderUserMenuProps {
   className?: string

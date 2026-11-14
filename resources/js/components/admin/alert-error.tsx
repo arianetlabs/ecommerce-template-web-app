@@ -1,6 +1,6 @@
+import { Alert, AlertDescription, AlertTitle } from '@/components/admin/ui/alert'
 import { AlertCircleIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { Alert, AlertDescription, AlertTitle } from '@/components/admin/ui/alert'
 
 export default function AlertError({ errors, title }: { errors: string[]; title?: string }) {
   return (

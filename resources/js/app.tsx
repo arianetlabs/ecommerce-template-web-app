@@ -1,4 +1,3 @@
-import { createInertiaApp } from '@inertiajs/react'
 import { initializeTheme } from '@/hooks/use-appearance'
 import AdminAuthLayout from '@/layouts/admin/auth-layout'
 import AdminLayout from '@/layouts/admin/layout'
@@ -6,10 +5,11 @@ import AdminSettingsLayout from '@/layouts/admin/settings-layout'
 import StoreAccountLayout from '@/layouts/store/account-layout'
 import StoreAuthLayout from '@/layouts/store/auth-layout'
 import StoreLayout from '@/layouts/store/layout'
+import { createInertiaApp } from '@inertiajs/react'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
-createInertiaApp({
+void createInertiaApp({
   title: (title) => (title ? `${title} - ${appName}` : appName),
   layout: (name) => {
     switch (true) {

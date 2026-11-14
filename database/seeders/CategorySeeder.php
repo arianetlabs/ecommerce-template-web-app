@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use LogicException;
 
 class CategorySeeder extends Seeder
 {
@@ -39,12 +40,16 @@ class CategorySeeder extends Seeder
         $categoryIds = [];
 
         foreach ($categories as $categoryData) {
+            $parentId = isset($categoryData['parent'])
+                ? ($categoryIds[$categoryData['parent']] ?? throw new LogicException("Missing parent category: {$categoryData['parent']}"))
+                : null;
+
             $category = Category::query()->updateOrCreate(
                 ['slug' => $categoryData['slug']],
                 [
                     'name' => $categoryData['name'],
                     'code' => $categoryData['code'],
-                    'parent_id' => isset($categoryData['parent']) ? $categoryIds[$categoryData['parent']] : null,
+                    'parent_id' => $parentId,
                     'short_description' => $categoryData['description'],
                     'is_active' => true,
                 ],

@@ -1,8 +1,8 @@
+import { Button } from '@/components/admin/ui/button'
+import type { PaginatedProducts } from '@/types/admin'
 import { ArrowLeft01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@inertiajs/react'
-import { Button } from '@/components/admin/ui/button'
-import type { PaginatedProducts } from '@/types/admin'
 
 type ProductPaginationProps = {
   pagination: PaginatedProducts
@@ -13,7 +13,7 @@ export default function ProductPagination({ pagination }: ProductPaginationProps
 
   return (
     <div className="flex flex-col gap-3 border-t px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-      <p className="text-muted-foreground text-sm">
+      <p className="text-sm text-muted-foreground">
         {hasProducts ? `Mostrando ${pagination.meta.from}–${pagination.meta.to} de ${pagination.meta.total} productos` : '0 productos'}
       </p>
       {pagination.meta.last_page > 1 && (
@@ -49,7 +49,7 @@ export default function ProductPagination({ pagination }: ProductPaginationProps
             </Button>
           )}
 
-          <span className="text-muted-foreground px-2 text-sm">
+          <span className="px-2 text-sm text-muted-foreground">
             Página {pagination.meta.current_page} de {pagination.meta.last_page}
           </span>
 

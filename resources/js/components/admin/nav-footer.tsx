@@ -1,10 +1,10 @@
+import AppearanceDropdown from '@/components/admin/appearance-dropdown'
+import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/admin/ui/sidebar'
+import { cn, toUrl } from '@/lib/utils'
 import { SquareArrowUpRightIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { usePage } from '@inertiajs/react'
 import type { ComponentPropsWithoutRef } from 'react'
-import AppearanceDropdown from '@/components/admin/appearance-dropdown'
-import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/admin/ui/sidebar'
-import { cn, toUrl } from '@/lib/utils'
 
 type NavFooterProps = ComponentPropsWithoutRef<typeof SidebarGroup>
 

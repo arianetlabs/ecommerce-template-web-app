@@ -1,7 +1,7 @@
-import type { FC } from 'react'
 import { Button } from '@/components/admin/ui/button'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/admin/ui/dialog'
 import { cn } from '@/lib/utils'
+import type { FC } from 'react'
 
 interface ForgotPasswordDialogProps {
   triggerClassName?: string

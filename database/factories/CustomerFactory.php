@@ -16,7 +16,8 @@ class CustomerFactory extends Factory
     /** @return array<string, mixed> */
     public function definition(): array
     {
-        $documentType = fake()->randomElement(UserDocumentType::cases());
+        $documentTypes = UserDocumentType::cases();
+        $documentType = $documentTypes[array_rand($documentTypes)];
 
         return [
             'document_type' => $documentType,

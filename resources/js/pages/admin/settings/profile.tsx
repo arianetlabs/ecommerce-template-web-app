@@ -1,4 +1,3 @@
-import { Form, Head } from '@inertiajs/react'
 import ProfileController from '@/actions/App/Http/Controllers/Admin/Settings/ProfileController'
 import Heading from '@/components/admin/heading'
 import InputError from '@/components/admin/input-error'
@@ -8,6 +7,7 @@ import { Label } from '@/components/admin/ui/label'
 import { Spinner } from '@/components/admin/ui/spinner'
 import { useAuthenticatedAdministrator } from '@/hooks/admin/use-authenticated-administrator'
 import { edit } from '@/routes/admin/profile'
+import { Form, Head } from '@inertiajs/react'
 
 const Profile = () => {
   const user = useAuthenticatedAdministrator()

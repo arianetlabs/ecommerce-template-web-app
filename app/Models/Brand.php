@@ -40,6 +40,7 @@ class Brand extends Model
         return $this->hasMany(Product::class);
     }
 
+    /** @return array{slug: array{source: string, onUpdate: bool, maxLength: int}} */
     public function sluggable(): array
     {
         return [
