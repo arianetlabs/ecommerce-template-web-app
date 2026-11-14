@@ -21,6 +21,7 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
+        $request->session()->forget('auth.password_confirmed_at');
         $request->session()->regenerate();
 
         return redirect()->intended(route('admin.dashboard', absolute: false));
@@ -29,8 +30,8 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('admin')->logout();
-        $request->session()->regenerate();
-        $request->session()->regenerateToken();
+        $request->session()->forget('auth.password_confirmed_at');
+        $request->session()->regenerate(true);
 
         return to_route('admin.auth.login');
     }

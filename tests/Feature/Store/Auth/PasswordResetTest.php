@@ -4,6 +4,7 @@ use App\Models\Customer;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Inertia\Testing\AssertableInertia as Assert;
 
 test('reset password link screen can be rendered', function () {
     $response = $this->get(route('store.auth.password.request'));
@@ -33,7 +34,8 @@ test('reset password screen can be rendered', function () {
     Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
         $response = $this->get(route('store.auth.password.reset', $notification->token));
 
-        $response->assertOk();
+        $response->assertOk()
+            ->assertInertia(fn (Assert $page) => $page->where('email', ''));
 
         return true;
     });

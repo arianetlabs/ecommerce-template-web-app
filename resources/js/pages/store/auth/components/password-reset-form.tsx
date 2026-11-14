@@ -17,7 +17,7 @@ export default function PasswordResetForm({ token, email, passwordRules }: Passw
   return (
     <Form
       {...update.form()}
-      transform={(data) => ({ ...data, token, email })}
+      transform={(data) => ({ ...data, token })}
       resetOnSuccess={['password', 'password_confirmation']}
     >
       {({ processing, errors }) => (
@@ -29,9 +29,9 @@ export default function PasswordResetForm({ token, email, passwordRules }: Passw
               type="email"
               name="email"
               autoComplete="email"
-              value={email}
+              defaultValue={email}
               className="mt-1 block w-full"
-              readOnly
+              required
             />
             <InputError
               message={errors.email}

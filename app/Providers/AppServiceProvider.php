@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
     {
         foreach (['store-login', 'admin-login'] as $limiter) {
             RateLimiter::for($limiter, function (Request $request): Limit {
-                $email = Str::lower($request->string('email')->toString());
+                $email = Str::lower($request->string('email', strict: true)->trim()->toString());
 
                 return Limit::perMinute(5)->by(Str::transliterate($email.'|'.$request->ip()));
             });

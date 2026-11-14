@@ -8,7 +8,7 @@ test('admin login screen can be rendered', function () {
 });
 
 test('admin login validation returns JSON when requested', function () {
-    $this->postJson(route('admin.auth.login.store'))
+    $this->postJson(route('admin.auth.login.store'), ['email' => ['correo']])
         ->assertUnprocessable()
         ->assertJsonValidationErrors(['email', 'password']);
 });
@@ -67,9 +67,11 @@ test('administrators can logout from the admin guard', function () {
 
     $response = $this->actingAs($customer, 'store')
         ->actingAs($administrator, 'admin')
+        ->withSession(['auth.password_confirmed_at' => now()->timestamp])
         ->post(route('admin.auth.logout'));
 
     $response->assertRedirect(route('admin.auth.login'));
+    $response->assertSessionMissing('auth.password_confirmed_at');
     $this->assertGuest('admin');
     $this->assertAuthenticatedAs($customer, 'store');
 });

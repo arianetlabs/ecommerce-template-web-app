@@ -13,7 +13,7 @@ class ResetPasswordController extends Controller
     public function __invoke(Request $request): Response
     {
         $props = [
-            'email' => $request->email,
+            'email' => $request->string('email', strict: true)->toString(),
             'token' => $request->route('token'),
             'passwordRules' => Password::defaults()->toPasswordRulesString(),
         ];
