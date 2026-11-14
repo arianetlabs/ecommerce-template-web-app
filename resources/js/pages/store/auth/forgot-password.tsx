@@ -25,19 +25,19 @@ export default function ForgotPassword({ status }: ForgotPasswordProps) {
         </Alert>
       )}
 
-      <div className="space-y-6">
+      <div className="grid gap-7">
         <PasswordResetLinkForm />
 
-        <div className="space-x-1 text-center text-sm text-muted-foreground">
-          <span>O volver a</span>
-          <TextLink href={login()}>iniciar sesión</TextLink>
-        </div>
+        <p className="text-sm text-muted-foreground sm:text-base">
+          O vuelve a <TextLink href={login()}>iniciar sesión</TextLink>
+        </p>
       </div>
     </>
   )
 }
 
 ForgotPassword.layout = {
-  title: 'Olvidé mi contraseña',
-  description: 'Ingresa tu correo para recibir un enlace de recuperación',
+  title: 'Recuperar contraseña',
+  description: 'Ingresa tu correo para restablecer tu contraseña.',
+  illustration: 'forgot',
 }

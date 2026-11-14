@@ -20,6 +20,7 @@ export default function Register({ document_type_options, passwordRules }: Regis
 }
 
 Register.layout = {
-  title: 'Crear una cuenta',
-  description: 'Ingresa tus datos para crear tu cuenta',
+  title: 'Crear cuenta',
+  description: 'Regístrate para empezar a comprar.',
+  illustration: 'register',
 }

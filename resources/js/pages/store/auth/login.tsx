@@ -30,6 +30,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 }
 
 Login.layout = {
-  title: 'Inicia sesión en tu cuenta',
-  description: 'Ingresa tu correo y contraseña para iniciar sesión',
+  title: 'Iniciar sesión',
+  description: 'Ingresa tus credenciales para acceder a tu cuenta.',
+  illustration: 'login',
 }

@@ -163,10 +163,6 @@
   }
 }
 
-.store-auth-container {
-  @apply max-w-150 mx-auto w-full px-4;
-}
-
 .web-container {
   @apply mx-auto w-full px-4 sm:max-w-3xl md:max-w-5xl lg:max-w-350;
 }

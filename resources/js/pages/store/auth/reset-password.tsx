@@ -22,6 +22,7 @@ export default function ResetPassword({ token, email, passwordRules }: ResetPass
 }
 
 ResetPassword.layout = {
-  title: 'Restablecer contraseña',
-  description: 'Por favor ingresa tu nueva contraseña a continuación',
+  title: 'Crear nueva contraseña',
+  description: 'Define una contraseña nueva para tu cuenta.',
+  illustration: 'reset',
 }

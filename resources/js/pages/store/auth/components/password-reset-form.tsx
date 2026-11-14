@@ -1,9 +1,8 @@
-import InputError from '@/components/store/input-error'
-import PasswordInput from '@/components/store/password-input'
+import TextLink from '@/components/store/text-link'
 import { Button } from '@/components/store/ui/button'
-import { Input } from '@/components/store/ui/input'
-import { Label } from '@/components/store/ui/label'
 import { Spinner } from '@/components/store/ui/spinner'
+import { AuthField } from '@/pages/store/auth/components/auth-field'
+import { login } from '@/routes/store/auth'
 import { update } from '@/routes/store/auth/password'
 import { Form } from '@inertiajs/react'
 
@@ -21,63 +20,50 @@ export default function PasswordResetForm({ token, email, passwordRules }: Passw
       resetOnSuccess={['password', 'password_confirmation']}
     >
       {({ processing, errors }) => (
-        <div className="grid gap-6">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Correo electrónico</Label>
-            <Input
-              id="email"
-              type="email"
+        <div className="grid gap-7">
+          <div className="grid gap-4">
+            <AuthField
+              label="Correo electrónico"
               name="email"
+              type="email"
               autoComplete="email"
               defaultValue={email}
-              className="mt-1 block w-full"
               required
+              error={errors.email}
             />
-            <InputError
-              message={errors.email}
-              className="mt-2"
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="password">Contraseña</Label>
-            <PasswordInput
-              id="password"
+            <AuthField
+              label="Nueva contraseña"
               name="password"
+              type="password"
               autoComplete="new-password"
-              className="mt-1 block w-full"
-              autoFocus
-              placeholder="Contraseña"
+              placeholder="Nueva contraseña*"
               passwordrules={passwordRules}
+              required
+              error={errors.password}
             />
-            <InputError message={errors.password} />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="password_confirmation">Confirmar contraseña</Label>
-            <PasswordInput
-              id="password_confirmation"
+            <AuthField
+              label="Confirmar contraseña"
               name="password_confirmation"
+              type="password"
               autoComplete="new-password"
-              className="mt-1 block w-full"
-              placeholder="Confirmar contraseña"
+              placeholder="Confirmar contraseña*"
               passwordrules={passwordRules}
-            />
-            <InputError
-              message={errors.password_confirmation}
-              className="mt-2"
+              required
+              error={errors.password_confirmation}
             />
           </div>
-
           <Button
             type="submit"
-            className="mt-4 w-full"
+            className="w-full text-base"
             disabled={processing}
             data-test="reset-password-button"
           >
             {processing && <Spinner />}
-            Restablecer contraseña
+            Cambiar contraseña
           </Button>
+          <p>
+            <TextLink href={login()}>Volver a iniciar sesión</TextLink>
+          </p>
         </div>
       )}
     </Form>

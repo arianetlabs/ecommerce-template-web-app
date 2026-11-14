@@ -31,13 +31,14 @@ export default function VerifyEmail({ status }: VerifyEmailProps) {
 
       <Form
         {...send.form()}
-        className="space-y-6 text-center"
+        className="grid gap-7"
       >
         {({ processing }) => (
           <>
             <Button
               disabled={processing}
-              variant="secondary"
+              type="submit"
+              className="w-full text-base"
             >
               {processing && <Spinner />}
               Reenviar correo de verificación
@@ -45,7 +46,7 @@ export default function VerifyEmail({ status }: VerifyEmailProps) {
 
             <TextLink
               href={logout()}
-              className="mx-auto block text-sm"
+              className="justify-self-start text-sm"
             >
               Cerrar sesión
             </TextLink>
@@ -59,4 +60,5 @@ export default function VerifyEmail({ status }: VerifyEmailProps) {
 VerifyEmail.layout = {
   title: 'Verificación de correo',
   description: 'Por favor verifica tu dirección de correo haciendo clic en el enlace que te enviamos.',
+  illustration: 'verify',
 }

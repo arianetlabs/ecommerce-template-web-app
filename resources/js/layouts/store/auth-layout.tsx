@@ -1,23 +1,21 @@
+import { AuthIllustration, type AuthIllustrationVariant } from '@/components/store/auth-illustration'
 import type { PropsWithChildren } from 'react'
 
 interface AuthLayoutProps extends PropsWithChildren {
   title?: string
   description?: string
+  illustration?: AuthIllustrationVariant
 }
 
-const AuthLayout = ({ title = '', description = '', children }: AuthLayoutProps) => {
+export default function AuthLayout({ title, description, illustration, children }: AuthLayoutProps) {
   return (
-    <div className="py-8">
-      <div className="store-auth-container grid gap-6">
-        <div className="space-y-2 text-center">
-          <h1 className="text-xl font-medium">{title}</h1>
-          <p className="text-center text-sm text-muted-foreground">{description}</p>
-        </div>
-
+    <main className="mx-auto w-full max-w-lg px-4 py-6 sm:px-0 sm:py-10">
+      <section className="flex flex-col gap-7 rounded-xl border border-border bg-background px-6 py-8 shadow-sm sm:px-8 sm:pt-10">
+        {title && <h1 className="font-heading text-lg font-bold">{title}</h1>}
+        {description && <p className={illustration === 'verify' ? 'text-sm text-muted-foreground' : 'sr-only'}>{description}</p>}
+        {illustration && <AuthIllustration variant={illustration} />}
         {children}
-      </div>
-    </div>
+      </section>
+    </main>
   )
 }
-
-export default AuthLayout
