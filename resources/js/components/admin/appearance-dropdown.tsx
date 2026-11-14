@@ -36,7 +36,7 @@ function AppearanceDropdown() {
             icon={currenteAppearance.icon}
             strokeWidth={1.5}
           />
-          <span>{currenteAppearance.label}</span>
+          <span>Tema: {currenteAppearance.label}</span>
         </SidebarMenuButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent

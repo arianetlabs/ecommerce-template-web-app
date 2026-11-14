@@ -5,13 +5,12 @@ import { NavUser } from '@/components/admin/nav-user'
 import SidebarLogoutButton from '@/components/admin/sidebar-logout-button'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/admin/ui/sidebar'
 import { dashboard } from '@/routes/admin'
-import { index as adminAdministrators } from '@/routes/admin/admins'
-import { index as adminBrands } from '@/routes/admin/brands'
-import { index as adminCategories } from '@/routes/admin/categories'
-import { index as adminCustomers } from '@/routes/admin/customers'
+import { index as adminIndexAdministrators } from '@/routes/admin/admins'
+import { index as adminIndexBrands } from '@/routes/admin/brands'
+import { index as adminIndexCategories } from '@/routes/admin/categories'
+import { index as adminIndexCustomers } from '@/routes/admin/customers'
 import { edit as editInformation } from '@/routes/admin/information'
 import { index as adminIndexProducts } from '@/routes/admin/products'
-import { create as adminCreateProducts } from '@/routes/admin/products'
 import type { NavGroup } from '@/types/admin'
 import { DashboardBrowsingIcon, GridViewIcon, Package01Icon, Settings01Icon, ShoppingBag01Icon, Tag01Icon, UserMultiple02Icon } from '@hugeicons/core-free-icons'
 import { Link } from '@inertiajs/react'
@@ -32,27 +31,17 @@ const mainNavItems: NavGroup[] = [
     items: [
       {
         title: 'Productos',
-        href: '#',
+        href: adminIndexProducts(),
         icon: Package01Icon,
-        subItems: [
-          {
-            title: 'Todos los productos',
-            href: adminIndexProducts(),
-          },
-          {
-            title: 'Nuevo producto',
-            href: adminCreateProducts(),
-          },
-        ],
       },
       {
         title: 'Categorías',
-        href: adminCategories(),
+        href: adminIndexCategories(),
         icon: GridViewIcon,
       },
       {
         title: 'Marcas',
-        href: adminBrands(),
+        href: adminIndexBrands(),
         icon: Tag01Icon,
       },
     ],
@@ -62,7 +51,7 @@ const mainNavItems: NavGroup[] = [
     items: [
       {
         title: 'Clientes',
-        href: adminCustomers(),
+        href: adminIndexCustomers(),
         icon: ShoppingBag01Icon,
       },
     ],
@@ -72,7 +61,7 @@ const mainNavItems: NavGroup[] = [
     items: [
       {
         title: 'Administradores',
-        href: adminAdministrators(),
+        href: adminIndexAdministrators(),
         icon: UserMultiple02Icon,
       },
       {
