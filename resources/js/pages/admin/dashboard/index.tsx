@@ -5,7 +5,6 @@ import { formatPeruDashboardDate, getPeruDashboardGreeting } from '@/lib/admin/d
 import { dashboard } from '@/routes/admin'
 import { FilterHorizontalIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { Head } from '@inertiajs/react'
 
 interface DashboardIndexProps {
   dashboardDate: string
@@ -20,7 +19,6 @@ export default function DashboardIndex({ dashboardDate }: DashboardIndexProps) {
 
   return (
     <>
-      <Head title="Dashboard" />
       <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4 md:p-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div className="space-y-3">

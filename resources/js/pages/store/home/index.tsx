@@ -8,12 +8,10 @@ import { PromoBannersSection } from '@/pages/store/home/components/promo-banners
 import { SeasonBanner } from '@/pages/store/home/components/season-banner'
 import { ServiceBenefits } from '@/pages/store/home/components/service-benefits'
 import { popularProducts, trendingProducts } from '@/pages/store/home/data'
-import { Head } from '@inertiajs/react'
 
 export default function HomePage() {
   return (
     <>
-      <Head title="Avelio" />
       <main>
         <HeroSlider />
         <ServiceBenefits />

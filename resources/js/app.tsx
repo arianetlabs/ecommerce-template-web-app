@@ -5,12 +5,18 @@ import AdminSettingsLayout from '@/layouts/admin/settings-layout'
 import StoreAccountLayout from '@/layouts/store/account-layout'
 import StoreAuthLayout from '@/layouts/store/auth-layout'
 import StoreLayout from '@/layouts/store/layout'
+import type { SiteSettings } from '@/types/site-settings'
 import { createInertiaApp } from '@inertiajs/react'
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
-
 void createInertiaApp({
-  title: (title) => (title ? `${title} - ${appName}` : appName),
+  title: (title, page) => {
+    const { site_name: siteName } = page.props.site as SiteSettings
+    // Inertia escapes the page title before passing it here and renders the result as HTML.
+    const escapedSiteName = siteName.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+    const siteTitle = page.component.startsWith('admin/') ? `Administración ${escapedSiteName}` : escapedSiteName
+
+    return title ? `${title} - ${siteTitle}` : siteTitle
+  },
   layout: (name) => {
     switch (true) {
       case name.startsWith('store/auth/'):

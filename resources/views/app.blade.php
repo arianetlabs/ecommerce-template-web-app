@@ -36,15 +36,16 @@
         @fonts
 
         @php
-            $stylesheet = str_starts_with($page['component'], 'admin/')
-                ? 'resources/css/admin.css'
-                : 'resources/css/store.css';
+            $isAdmin = str_starts_with($page['component'], 'admin/');
+            $stylesheet = $isAdmin ? 'resources/css/admin.css' : 'resources/css/store.css';
+            $siteName = $page['props']['site']['site_name'];
+            $siteTitle = $isAdmin ? "Administración {$siteName}" : $siteName;
         @endphp
 
         @viteReactRefresh
         @vite([$stylesheet, 'resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
         <x-inertia::head>
-            <title>{{ config('app.name', 'Laravel') }}</title>
+            <title>{{ $siteTitle }}</title>
         </x-inertia::head>
     </head>
     <body class="font-sans antialiased">

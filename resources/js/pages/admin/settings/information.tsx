@@ -11,7 +11,10 @@ interface InformationProps {
 const Information = ({ settings }: InformationProps) => {
   return (
     <>
-      <Head title="Configuración de información del sitio" />
+      <Head
+        key={settings.site_name}
+        title="Configuración de información del sitio"
+      />
 
       <div className="space-y-6">
         <Heading

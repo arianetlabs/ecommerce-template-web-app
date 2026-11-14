@@ -4,11 +4,17 @@ use App\Models\SiteSetting;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('store home page is displayed', function () {
-    $this->get(route('store.home'))
+    SiteSetting::setMany([SiteSetting::KEY_SITE_NAME => 'Moda & <Estilo>']);
+
+    $response = $this->get(route('store.home'));
+
+    $response
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('store/home/index'),
         );
+
+    $this->assertMatchesRegularExpression('/<title\b[^>]*>Moda &amp; &lt;Estilo&gt;<\/title>/', $response->getContent());
 });
 
 test('store pages receive the current site information after settings are updated', function () {

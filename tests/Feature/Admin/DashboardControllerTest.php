@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Administrator;
+use App\Models\SiteSetting;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('guests are redirected to the admin login page when accessing dashboard', function () {
@@ -10,6 +11,7 @@ test('guests are redirected to the admin login page when accessing dashboard', f
 });
 
 test('admins can visit the dashboard', function () {
+    SiteSetting::setMany([SiteSetting::KEY_SITE_NAME => 'Tienda Norte']);
     $user = Administrator::factory()
         ->create();
     $this->actingAs($user, 'admin');
@@ -27,4 +29,6 @@ test('admins can visit the dashboard', function () {
             ->where('auth.user.role.value', $user->role->value)
             ->where('auth.user.role.label', $user->role->label())
         );
+
+    $this->assertMatchesRegularExpression('/<title\b[^>]*>Administración Tienda Norte<\/title>/', $response->getContent());
 });
