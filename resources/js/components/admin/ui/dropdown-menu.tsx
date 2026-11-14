@@ -231,7 +231,7 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       {children}
-      <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="ml-auto" />
+      <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="ms-auto rtl:rotate-180" />
     </DropdownMenuPrimitive.SubTrigger>
   )
 }
