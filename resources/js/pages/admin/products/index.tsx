@@ -1,15 +1,16 @@
 import Heading from '@/components/admin/heading'
+import ListPagination from '@/components/admin/list-pagination'
 import { Card, CardContent } from '@/components/admin/ui/card'
-import ProductPagination from '@/pages/admin/products/components/product-pagination'
 import ProductTable from '@/pages/admin/products/components/product-table'
 import ProductToolbar from '@/pages/admin/products/components/product-toolbar'
 import { index as productsIndex } from '@/routes/admin/products'
-import type { PaginatedProducts } from '@/types/admin'
+import type { Paginated } from '@/types/admin'
+import type { Product } from '@/types/entities'
 import { Package01Icon } from '@hugeicons/core-free-icons'
 import { Head } from '@inertiajs/react'
 
 interface ProductsIndexProps {
-  products: PaginatedProducts
+  products: Paginated<Product>
   filters: {
     search: string
   }
@@ -39,9 +40,13 @@ export default function ProductsIndex({ products, filters }: ProductsIndexProps)
               hasSearch={filters.search !== ''}
               products={products.data}
             />
-            <ProductPagination pagination={products} />
           </CardContent>
         </Card>
+
+        <ListPagination
+          pagination={products}
+          label="Paginación de productos"
+        />
       </div>
     </>
   )

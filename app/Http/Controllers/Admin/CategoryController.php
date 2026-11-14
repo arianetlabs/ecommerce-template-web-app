@@ -73,7 +73,8 @@ class CategoryController extends Controller
             ->select(['id', 'name', 'slug', 'code', 'parent_id', 'short_description', 'is_active', 'created_at'])
             ->with('parent:id,name')
             ->withCount('children')
-            ->orderBy('name');
+            ->orderBy('name')
+            ->orderBy('id');
 
         if ($parentCategory === null) {
             $query->whereNull('parent_id');
@@ -81,7 +82,7 @@ class CategoryController extends Controller
             $query->where('parent_id', $parentCategory->getKey());
         }
 
-        $categories = $query->get();
+        $categories = $query->paginate(50)->withQueryString();
 
         $categoryParentOptions = Category::query()
             ->select(['id', 'name'])
@@ -93,7 +94,7 @@ class CategoryController extends Controller
             ])
             ->all();
 
-        $categoryData = CategoryResource::collection($categories)->resolve();
+        $categoryData = CategoryResource::collection($categories);
         $parentCategoryData = $parentCategory === null ? null : [
             'id' => $parentCategory->id,
             'name' => $parentCategory->name,

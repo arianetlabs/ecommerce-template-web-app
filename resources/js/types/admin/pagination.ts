@@ -1,7 +1,5 @@
-import type { Product } from '@/types/entities'
-
-export type PaginatedProducts = {
-  data: Product[]
+export interface Paginated<T> {
+  data: T[]
   links: {
     first: string
     last: string

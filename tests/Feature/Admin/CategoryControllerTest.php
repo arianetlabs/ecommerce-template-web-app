@@ -2,6 +2,7 @@
 
 use App\Models\Administrator;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('guests are redirected to the admin login page when accessing categories index', function () {
@@ -30,13 +31,13 @@ test('admins can see only root categories and parent options', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('admin/categories/index')
             ->where('parent_category', null)
-            ->has('categories', 2)
+            ->has('categories.data', 2)
             ->has('category_parent_options', 3)
-            ->where('categories.0.name', 'Hogar')
-            ->where('categories.0.parent', null)
-            ->where('categories.1.name', 'Tecnología')
-            ->where('categories.1.parent', null)
-            ->missing('categories.2'),
+            ->where('categories.data.0.name', 'Hogar')
+            ->where('categories.data.0.parent', null)
+            ->where('categories.data.1.name', 'Tecnología')
+            ->where('categories.data.1.parent', null)
+            ->missing('categories.data.2'),
         );
 
     expect($childCategory->refresh()->parent_id)->toBe($rootCategory->id)
@@ -67,13 +68,13 @@ test('admins can see the subcategories of a category and its parent is preselect
         ->assertInertia(fn (Assert $page) => $page
             ->component('admin/categories/index')
             ->where('parent_category.name', $rootCategory->name)
-            ->has('categories', 2)
+            ->has('categories.data', 2)
             ->has('category_parent_options', 4)
-            ->where('categories.0.name', 'Accesorios')
-            ->where('categories.0.parent.id', $rootCategory->id)
-            ->where('categories.1.name', 'Laptops')
-            ->where('categories.1.parent.id', $rootCategory->id)
-            ->missing('categories.2'),
+            ->where('categories.data.0.name', 'Accesorios')
+            ->where('categories.data.0.parent.id', $rootCategory->id)
+            ->where('categories.data.1.name', 'Laptops')
+            ->where('categories.data.1.parent.id', $rootCategory->id)
+            ->missing('categories.data.2'),
         );
 
     expect($firstChild->refresh()->parent_id)->toBe($rootCategory->id)
@@ -269,6 +270,53 @@ test('admins cannot assign a category as its own parent', function () {
             'is_active' => true,
         ])
         ->assertSessionHasErrors('parent_id');
+});
+
+test('admins can navigate to the next page of categories', function () {
+    $admin = Administrator::factory()->create();
+    Category::factory()->count(50)->sequence(fn (Sequence $sequence): array => ['name' => 'Category '.$sequence->index])->create();
+    $lastCategory = Category::factory()->create(['name' => 'Zeta']);
+
+    $firstPage = $this->actingAs($admin, 'admin')->get(route('admin.categories.index'));
+
+    $firstPage->assertInertia(fn (Assert $page) => $page
+        ->has('categories.data', 50)
+        ->where('categories.meta.last_page', 2)
+        ->where('categories.links.prev', null)
+    );
+
+    $this->get($firstPage->inertiaProps('categories.links.next'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('categories.data', 1)
+            ->where('categories.data.0.id', $lastCategory->id)
+            ->where('categories.meta.current_page', 2)
+            ->where('categories.links.prev', route('admin.categories.index', ['page' => 1]))
+            ->where('categories.links.next', null)
+        );
+});
+
+test('subcategory pagination stays within the selected parent', function () {
+    $admin = Administrator::factory()->create();
+    $parent = Category::factory()->create(['name' => 'Parent']);
+    $children = Category::factory()->forParent($parent);
+    $children->count(50)->sequence(fn (Sequence $sequence): array => ['name' => 'Child '.$sequence->index])->create();
+    $lastChild = $children->create(['name' => 'Zeta']);
+
+    $firstPage = $this->actingAs($admin, 'admin')->get(route('admin.categories.subcategories', $parent));
+
+    $firstPage->assertInertia(fn (Assert $page) => $page
+        ->has('categories.data', 50)
+        ->where('categories.meta.total', 51)
+        ->where('categories.links.next', route('admin.categories.subcategories', ['category' => $parent, 'page' => 2]))
+    );
+
+    $this->get($firstPage->inertiaProps('categories.links.next'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('categories.data', 1)
+            ->where('categories.data.0.id', $lastChild->id)
+            ->where('parent_category.id', $parent->id)
+            ->has('category_parent_options', 52)
+        );
 });
 
 test('admins cannot assign a category to one of its descendants', function () {

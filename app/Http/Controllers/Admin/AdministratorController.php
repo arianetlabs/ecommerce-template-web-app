@@ -25,9 +25,11 @@ class AdministratorController extends Controller
             ->select(['id', 'name', 'last_name', 'email', 'phone', 'created_at', 'role'])
             ->where('role', AdministratorRole::ADMIN->value)
             ->latest('created_at')
-            ->get();
+            ->orderByDesc('id')
+            ->paginate(50)
+            ->withQueryString();
 
-        $adminsData = AdministratorResource::collection($administrators)->resolve();
+        $adminsData = AdministratorResource::collection($administrators);
         $credentials = session('created_administrator_credentials');
 
         return Inertia::render('admin/admins/index', ['admins' => $adminsData, 'created_administrator_credentials' => $credentials]);

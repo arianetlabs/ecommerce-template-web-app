@@ -26,10 +26,10 @@ test('administrators can see only administrator identities', function () {
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('admin/admins/index')
-            ->has('admins', 1)
-            ->where('admins.0.email', $administrator->email)
-            ->where('admins.0.kind', 'administrator')
-            ->where('admins.0.role.value', AdministratorRole::ADMIN->value)
+            ->has('admins.data', 1)
+            ->where('admins.data.0.email', $administrator->email)
+            ->where('admins.data.0.kind', 'administrator')
+            ->where('admins.data.0.role.value', AdministratorRole::ADMIN->value)
         );
 });
 
@@ -122,4 +122,27 @@ test('customer ids cannot be resolved as administrator route bindings', function
             'password' => 'password',
         ])
         ->assertNotFound();
+});
+
+test('admins can navigate to the next page of administrators', function () {
+    $admin = Administrator::factory()->superAdmin()->create();
+    Administrator::factory()->count(50)->create();
+    $lastAdministrator = Administrator::factory()->create(['created_at' => now()->subDay()]);
+
+    $firstPage = $this->actingAs($admin, 'admin')->get(route('admin.admins.index'));
+
+    $firstPage->assertInertia(fn (Assert $page) => $page
+        ->has('admins.data', 50)
+        ->where('admins.meta.last_page', 2)
+        ->where('admins.links.prev', null)
+    );
+
+    $this->get($firstPage->inertiaProps('admins.links.next'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('admins.data', 1)
+            ->where('admins.data.0.id', $lastAdministrator->id)
+            ->where('admins.meta.current_page', 2)
+            ->where('admins.links.prev', route('admin.admins.index', ['page' => 1]))
+            ->where('admins.links.next', null)
+        );
 });

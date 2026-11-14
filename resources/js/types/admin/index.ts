@@ -1,5 +1,5 @@
 export type * from '@/types/admin/administrator-credentials'
 export type * from '@/types/admin/navigation'
 export type * from '@/types/admin/product-form'
-export type * from '@/types/admin/product-pagination'
+export type * from '@/types/admin/pagination'
 export type * from '@/types/admin/ui'

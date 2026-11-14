@@ -1,14 +1,16 @@
 import Heading from '@/components/admin/heading'
+import ListPagination from '@/components/admin/list-pagination'
 import CategoriesTable from '@/pages/admin/categories/components/categories-table'
 import CreateCategoryModal from '@/pages/admin/categories/components/create-category-modal'
 import { index as categoriesIndex } from '@/routes/admin/categories'
 import type { SelectOption } from '@/types'
+import type { Paginated } from '@/types/admin'
 import type { Category, CategoryParent } from '@/types/entities'
 import { GridViewIcon } from '@hugeicons/core-free-icons'
 import { Head } from '@inertiajs/react'
 
 interface CategoriesIndexProps {
-  categories: Category[]
+  categories: Paginated<Category>
   parent_category: CategoryParent | null
   category_parent_options: SelectOption[]
 }
@@ -50,8 +52,12 @@ export default function CategoriesIndex({ categories, parent_category, category_
         </div>
 
         <CategoriesTable
-          categories={categories}
+          categories={categories.data}
           categoryParentOptions={category_parent_options}
+        />
+        <ListPagination
+          pagination={categories}
+          label={parent_category === null ? 'Paginación de categorías' : 'Paginación de subcategorías'}
         />
       </div>
     </>

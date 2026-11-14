@@ -18,9 +18,11 @@ class CustomerController extends Controller
         $customers = Customer::query()
             ->select(['id', 'name', 'last_name', 'email', 'phone', 'document_type', 'document_number', 'created_at'])
             ->latest('created_at')
-            ->get();
+            ->orderByDesc('id')
+            ->paginate(50)
+            ->withQueryString();
 
-        $customersData = CustomerResource::collection($customers)->resolve();
+        $customersData = CustomerResource::collection($customers);
 
         return Inertia::render('admin/customers/index', ['customers' => $customersData]);
     }

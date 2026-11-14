@@ -2,6 +2,7 @@
 
 use App\Models\Administrator;
 use App\Models\Brand;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -25,13 +26,13 @@ test('admins can see the brands index', function () {
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('admin/brands/index')
-            ->has('brands', 2)
-            ->where('brands.0.name', 'Adidas')
-            ->where('brands.0.code', fn (string $code): bool => Str::startsWith($code, 'BR'))
-            ->where('brands.0.is_active', false)
-            ->where('brands.1.name', 'Nike')
-            ->where('brands.1.is_active', true)
-            ->missing('brands.2'),
+            ->has('brands.data', 2)
+            ->where('brands.data.0.name', 'Adidas')
+            ->where('brands.data.0.code', fn (string $code): bool => Str::startsWith($code, 'BR'))
+            ->where('brands.data.0.is_active', false)
+            ->where('brands.data.1.name', 'Nike')
+            ->where('brands.data.1.is_active', true)
+            ->missing('brands.data.2'),
         );
 });
 
@@ -204,6 +205,29 @@ test('admins must provide a brand logo when creating brands', function () {
             'short_description' => 'Ropa deportiva',
         ])
         ->assertSessionHasErrors('logo');
+});
+
+test('admins can navigate to the next page of brands', function () {
+    $admin = Administrator::factory()->create();
+    Brand::factory()->count(50)->sequence(fn (Sequence $sequence): array => ['name' => 'Brand '.$sequence->index])->create();
+    $lastBrand = Brand::factory()->create(['name' => 'Zeta']);
+
+    $firstPage = $this->actingAs($admin, 'admin')->get(route('admin.brands.index'));
+
+    $firstPage->assertInertia(fn (Assert $page) => $page
+        ->has('brands.data', 50)
+        ->where('brands.meta.last_page', 2)
+        ->where('brands.links.prev', null)
+    );
+
+    $this->get($firstPage->inertiaProps('brands.links.next'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('brands.data', 1)
+            ->where('brands.data.0.id', $lastBrand->id)
+            ->where('brands.meta.current_page', 2)
+            ->where('brands.links.prev', route('admin.brands.index', ['page' => 1]))
+            ->where('brands.links.next', null)
+        );
 });
 
 test('admins must keep brand short descriptions within the configured limit when creating brands', function () {

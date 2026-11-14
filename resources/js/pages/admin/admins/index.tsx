@@ -1,15 +1,16 @@
 import Heading from '@/components/admin/heading'
+import ListPagination from '@/components/admin/list-pagination'
 import AdministratorsTable from '@/pages/admin/admins/components/administrators-table'
 import CreateAdminModal from '@/pages/admin/admins/components/create-admin-modal'
 import CreatedAdministratorCredentialsModal from '@/pages/admin/admins/components/created-administrator-credentials-modal'
 import { index as adminsIndex } from '@/routes/admin/admins'
-import type { CreatedAdministratorCredentials } from '@/types/admin'
+import type { CreatedAdministratorCredentials, Paginated } from '@/types/admin'
 import type { Administrator } from '@/types/entities'
 import { UserMultiple02Icon } from '@hugeicons/core-free-icons'
 import { Head } from '@inertiajs/react'
 
 interface AdminsIndexProps {
-  admins: Administrator[]
+  admins: Paginated<Administrator>
   created_administrator_credentials: CreatedAdministratorCredentials | null
 }
 
@@ -37,7 +38,11 @@ export default function AdminsIndex({ admins, created_administrator_credentials 
           </div>
         </div>
 
-        <AdministratorsTable admins={admins} />
+        <AdministratorsTable admins={admins.data} />
+        <ListPagination
+          pagination={admins}
+          label="Paginación de administradores"
+        />
       </div>
       <CreatedAdministratorCredentialsModal
         key={createdCredentialsModalKey}

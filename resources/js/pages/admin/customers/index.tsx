@@ -1,12 +1,14 @@
 import Heading from '@/components/admin/heading'
+import ListPagination from '@/components/admin/list-pagination'
 import CustomersTable from '@/pages/admin/customers/components/customers-table'
 import { index as customersIndex } from '@/routes/admin/customers'
+import type { Paginated } from '@/types/admin'
 import type { Customer } from '@/types/entities'
 import { ShoppingBag01Icon } from '@hugeicons/core-free-icons'
 import { Head } from '@inertiajs/react'
 
 interface CustomersIndexProps {
-  customers: Customer[]
+  customers: Paginated<Customer>
 }
 
 export default function CustomersIndex({ customers }: CustomersIndexProps) {
@@ -31,7 +33,11 @@ export default function CustomersIndex({ customers }: CustomersIndexProps) {
           </div>
         </div>
 
-        <CustomersTable customers={customers} />
+        <CustomersTable customers={customers.data} />
+        <ListPagination
+          pagination={customers}
+          label="Paginación de clientes"
+        />
       </div>
     </>
   )

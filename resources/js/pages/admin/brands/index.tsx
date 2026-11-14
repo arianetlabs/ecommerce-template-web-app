@@ -1,13 +1,15 @@
 import Heading from '@/components/admin/heading'
+import ListPagination from '@/components/admin/list-pagination'
 import BrandsTable from '@/pages/admin/brands/components/brands-table'
 import CreateBrandModal from '@/pages/admin/brands/components/create-brand-modal'
 import { index as brandsIndex } from '@/routes/admin/brands'
+import type { Paginated } from '@/types/admin'
 import type { Brand } from '@/types/entities'
 import { Tag01Icon } from '@hugeicons/core-free-icons'
 import { Head } from '@inertiajs/react'
 
 interface BrandsIndexProps {
-  brands: Brand[]
+  brands: Paginated<Brand>
 }
 
 export default function BrandsIndex({ brands }: BrandsIndexProps) {
@@ -29,7 +31,11 @@ export default function BrandsIndex({ brands }: BrandsIndexProps) {
           </div>
         </div>
 
-        <BrandsTable brands={brands} />
+        <BrandsTable brands={brands.data} />
+        <ListPagination
+          pagination={brands}
+          label="Paginación de marcas"
+        />
       </div>
     </>
   )

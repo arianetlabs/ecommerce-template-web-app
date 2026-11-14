@@ -24,9 +24,11 @@ class BrandController extends Controller
         $brands = Brand::query()
             ->select(['id', 'name', 'slug', 'code', 'short_description', 'logo_path', 'is_active', 'created_at'])
             ->orderBy('name')
-            ->get();
+            ->orderBy('id')
+            ->paginate(50)
+            ->withQueryString();
 
-        $brandsData = BrandResource::collection($brands)->resolve();
+        $brandsData = BrandResource::collection($brands);
 
         return Inertia::render('admin/brands/index', ['brands' => $brandsData]);
     }
