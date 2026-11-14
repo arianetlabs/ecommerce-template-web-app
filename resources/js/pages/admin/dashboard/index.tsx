@@ -7,9 +7,13 @@ import { FilterHorizontalIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Head } from '@inertiajs/react'
 
-export default function DashboardIndex() {
+interface DashboardIndexProps {
+  dashboardDate: string
+}
+
+export default function DashboardIndex({ dashboardDate }: DashboardIndexProps) {
   const user = useAuthenticatedAdministrator()
-  const currentDate = new Date()
+  const currentDate = new Date(dashboardDate)
   const greeting = getPeruDashboardGreeting(currentDate)
   const formattedDate = formatPeruDashboardDate(currentDate)
   const userName = `${user.name}`.trim()
@@ -38,11 +42,11 @@ export default function DashboardIndex() {
           </div>
 
           <div className="flex w-full flex-wrap items-center justify-start gap-3 md:w-auto md:justify-end">
-            <div
-              className="h-10 w-full"
-              aria-hidden="true"
-            >
-              <Button variant="outline">
+            <div className="h-10 w-full">
+              <Button
+                variant="outline"
+                disabled
+              >
                 <HugeiconsIcon
                   icon={FilterHorizontalIcon}
                   strokeWidth={1.5}

@@ -10,6 +10,10 @@ class DashboardController extends Controller
 {
     public function __invoke(): Response
     {
-        return Inertia::render('admin/dashboard/index');
+        $dashboardDate = now()->toISOString();
+
+        return Inertia::render('admin/dashboard/index', [
+            'dashboardDate' => $dashboardDate,
+        ]);
     }
 }
