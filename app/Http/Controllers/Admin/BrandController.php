@@ -26,9 +26,9 @@ class BrandController extends Controller
             ->orderBy('name')
             ->get();
 
-        return Inertia::render('admin/brands/index', [
-            'brands' => BrandResource::collection($brands)->resolve(),
-        ]);
+        $brandsData = BrandResource::collection($brands)->resolve();
+
+        return Inertia::render('admin/brands/index', ['brands' => $brandsData]);
     }
 
     /**

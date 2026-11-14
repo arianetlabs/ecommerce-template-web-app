@@ -12,10 +12,12 @@ class ResetPasswordController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        return Inertia::render('store/auth/reset-password', [
+        $props = [
             'email' => $request->email,
             'token' => $request->route('token'),
             'passwordRules' => Password::defaults()->toPasswordRulesString(),
-        ]);
+        ];
+
+        return Inertia::render('store/auth/reset-password', $props);
     }
 }

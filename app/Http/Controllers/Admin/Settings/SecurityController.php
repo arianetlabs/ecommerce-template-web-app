@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Settings;
 
+use App\Actions\Settings\UpdateAdministratorPasswordAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Settings\PasswordUpdateRequest;
 use App\Models\Administrator;
@@ -27,15 +28,13 @@ class SecurityController extends Controller
     /**
      * Update the user's password.
      */
-    public function update(PasswordUpdateRequest $request): RedirectResponse
+    public function update(PasswordUpdateRequest $request, UpdateAdministratorPasswordAction $updateAdministratorPassword): RedirectResponse
     {
         $administrator = $request->user('admin');
 
         abort_unless($administrator instanceof Administrator, 403);
 
-        $administrator->update([
-            'password' => $request->password,
-        ]);
+        $updateAdministratorPassword->handle($administrator, $request->password);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Password updated.')]);
 

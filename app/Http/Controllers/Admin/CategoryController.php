@@ -24,14 +24,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display a listing of subcategories for the given category.
-     */
-    public function subcategories(Category $category): Response
-    {
-        return $this->renderIndex($category);
-    }
-
-    /**
      * Store a newly created category.
      */
     public function store(StoreCategoryRequest $request, CreateCategoryAction $createCategory): RedirectResponse
@@ -64,6 +56,17 @@ class CategoryController extends Controller
         return $this->redirectToCategoryListing($category);
     }
 
+    private function redirectToCategoryListing(Category $category): RedirectResponse
+    {
+        if ($category->parent_id === null) {
+            return to_route('admin.categories.index');
+        }
+
+        $parentCategory = Category::query()->findOrFail($category->parent_id);
+
+        return to_route('admin.categories.subcategories', $parentCategory);
+    }
+
     private function renderIndex(?Category $parentCategory): Response
     {
         $query = Category::query()
@@ -90,24 +93,24 @@ class CategoryController extends Controller
             ])
             ->all();
 
+        $categoryData = CategoryResource::collection($categories)->resolve();
+        $parentCategoryData = $parentCategory === null ? null : [
+            'id' => $parentCategory->id,
+            'name' => $parentCategory->name,
+        ];
+
         return Inertia::render('admin/categories/index', [
-            'categories' => CategoryResource::collection($categories)->resolve(),
-            'parent_category' => $parentCategory === null ? null : [
-                'id' => $parentCategory->id,
-                'name' => $parentCategory->name,
-            ],
+            'categories' => $categoryData,
+            'parent_category' => $parentCategoryData,
             'category_parent_options' => $categoryParentOptions,
         ]);
     }
 
-    private function redirectToCategoryListing(Category $category): RedirectResponse
+    /**
+     * Display a listing of subcategories for the given category.
+     */
+    public function subcategories(Category $category): Response
     {
-        if ($category->parent_id === null) {
-            return to_route('admin.categories.index');
-        }
-
-        $parentCategory = Category::query()->findOrFail($category->parent_id);
-
-        return to_route('admin.categories.subcategories', $parentCategory);
+        return $this->renderIndex($category);
     }
 }

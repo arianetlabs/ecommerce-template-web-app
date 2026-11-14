@@ -27,10 +27,10 @@ class AdministratorController extends Controller
             ->latest('created_at')
             ->get();
 
-        return Inertia::render('admin/admins/index', [
-            'admins' => AdministratorResource::collection($administrators)->resolve(),
-            'created_administrator_credentials' => session('created_administrator_credentials'),
-        ]);
+        $adminsData = AdministratorResource::collection($administrators)->resolve();
+        $credentials = session('created_administrator_credentials');
+
+        return Inertia::render('admin/admins/index', ['admins' => $adminsData, 'created_administrator_credentials' => $credentials]);
     }
 
     /**
@@ -49,6 +49,16 @@ class AdministratorController extends Controller
             'created_administrator_credentials',
             $this->credentialsFor($administrator, $generatedPassword),
         );
+    }
+
+    /** @return array{name: string, email: string, password: string} */
+    private function credentialsFor(Administrator $administrator, string $password): array
+    {
+        return [
+            'name' => trim($administrator->name.' '.$administrator->last_name),
+            'email' => $administrator->email,
+            'password' => $password,
+        ];
     }
 
     /**
@@ -70,15 +80,5 @@ class AdministratorController extends Controller
             'created_administrator_credentials',
             $this->credentialsFor($administrator, $generatedPassword),
         );
-    }
-
-    /** @return array{name: string, email: string, password: string} */
-    private function credentialsFor(Administrator $administrator, string $password): array
-    {
-        return [
-            'name' => trim($administrator->name.' '.$administrator->last_name),
-            'email' => $administrator->email,
-            'password' => $password,
-        ];
     }
 }

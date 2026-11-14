@@ -20,8 +20,8 @@ class CustomerController extends Controller
             ->latest('created_at')
             ->get();
 
-        return Inertia::render('admin/customers/index', [
-            'customers' => CustomerResource::collection($customers)->resolve(),
-        ]);
+        $customersData = CustomerResource::collection($customers)->resolve();
+
+        return Inertia::render('admin/customers/index', ['customers' => $customersData]);
     }
 }

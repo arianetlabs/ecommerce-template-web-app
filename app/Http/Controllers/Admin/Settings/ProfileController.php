@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Settings;
 
+use App\Actions\Settings\UpdateAdministratorProfileAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Models\Administrator;
@@ -22,14 +23,13 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request, UpdateAdministratorProfileAction $updateAdministratorProfile): RedirectResponse
     {
         $administrator = $request->user('admin');
 
         abort_unless($administrator instanceof Administrator, 403);
 
-        $administrator->fill($request->validated());
-        $administrator->save();
+        $updateAdministratorProfile->handle($administrator, $request->validated());
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);
 

@@ -11,8 +11,10 @@ class ForgotPasswordController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        return Inertia::render('store/auth/forgot-password', [
+        $props = [
             'status' => $request->session()->get('status'),
-        ]);
+        ];
+
+        return Inertia::render('store/auth/forgot-password', $props);
     }
 }

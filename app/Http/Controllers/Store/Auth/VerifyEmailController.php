@@ -19,8 +19,10 @@ class VerifyEmailController extends Controller
             return to_route('store.home');
         }
 
-        return Inertia::render('store/auth/verify-email', [
+        $props = [
             'status' => $request->session()->get('status'),
-        ]);
+        ];
+
+        return Inertia::render('store/auth/verify-email', $props);
     }
 }

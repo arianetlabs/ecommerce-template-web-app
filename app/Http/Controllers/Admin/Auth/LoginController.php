@@ -11,8 +11,10 @@ class LoginController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        return Inertia::render('admin/auth/login', [
+        $props = [
             'status' => $request->session()->get('status'),
-        ]);
+        ];
+
+        return Inertia::render('admin/auth/login', $props);
     }
 }

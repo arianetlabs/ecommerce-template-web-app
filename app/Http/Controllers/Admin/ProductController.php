@@ -41,12 +41,10 @@ class ProductController extends Controller
             ->paginate(50)
             ->withQueryString();
 
-        return Inertia::render('admin/products/index', [
-            'products' => ProductResource::collection($products),
-            'filters' => [
-                'search' => $search,
-            ],
-        ]);
+        $productData = ProductResource::collection($products);
+        $filters = ['search' => $search];
+
+        return Inertia::render('admin/products/index', ['products' => $productData, 'filters' => $filters]);
     }
 
     /**
@@ -54,17 +52,21 @@ class ProductController extends Controller
      */
     public function create(): Response
     {
+        $brands = Brand::query()
+            ->select(['id', 'name'])
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
+        $categories = Category::query()
+            ->select(['id', 'name'])
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
         return Inertia::render('admin/products/create', [
-            'brands' => Brand::query()
-                ->select(['id', 'name'])
-                ->where('is_active', true)
-                ->orderBy('name')
-                ->get(),
-            'categories' => Category::query()
-                ->select(['id', 'name'])
-                ->where('is_active', true)
-                ->orderBy('name')
-                ->get(),
+            'brands' => $brands,
+            'categories' => $categories,
         ]);
     }
 
@@ -102,9 +104,9 @@ class ProductController extends Controller
             'images:id,product_id,path,variants,alt,position',
         ]);
 
-        return Inertia::render('admin/products/show', [
-            'product' => ProductResource::make($product)->resolve(),
-        ]);
+        $productData = ProductResource::make($product)->resolve();
+
+        return Inertia::render('admin/products/show', ['product' => $productData]);
     }
 
     /**
@@ -112,24 +114,30 @@ class ProductController extends Controller
      */
     public function edit(Product $product): Response
     {
+        $editableProduct = ProductFormResource::make($product->load('images'))->resolve();
+
+        $brands = Brand::query()
+            ->select(['id', 'name'])
+            ->where(function ($query) use ($product): void {
+                $query->where('is_active', true)
+                    ->orWhere('id', $product->brand_id);
+            })
+            ->orderBy('name')
+            ->get();
+
+        $categories = Category::query()
+            ->select(['id', 'name'])
+            ->where(function ($query) use ($product): void {
+                $query->where('is_active', true)
+                    ->orWhere('id', $product->category_id);
+            })
+            ->orderBy('name')
+            ->get();
+
         return Inertia::render('admin/products/edit', [
-            'product' => ProductFormResource::make($product->load('images'))->resolve(),
-            'brands' => Brand::query()
-                ->select(['id', 'name'])
-                ->where(function ($query) use ($product): void {
-                    $query->where('is_active', true)
-                        ->orWhere('id', $product->brand_id);
-                })
-                ->orderBy('name')
-                ->get(),
-            'categories' => Category::query()
-                ->select(['id', 'name'])
-                ->where(function ($query) use ($product): void {
-                    $query->where('is_active', true)
-                        ->orWhere('id', $product->category_id);
-                })
-                ->orderBy('name')
-                ->get(),
+            'product' => $editableProduct,
+            'brands' => $brands,
+            'categories' => $categories,
         ]);
     }
 

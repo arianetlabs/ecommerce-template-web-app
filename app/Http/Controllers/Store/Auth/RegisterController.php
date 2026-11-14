@@ -13,9 +13,11 @@ class RegisterController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        return Inertia::render('store/auth/register', [
+        $props = [
             'document_type_options' => UserDocumentType::options(),
             'passwordRules' => Password::defaults()->toPasswordRulesString(),
-        ]);
+        ];
+
+        return Inertia::render('store/auth/register', $props);
     }
 }

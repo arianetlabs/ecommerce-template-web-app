@@ -11,9 +11,11 @@ class LoginController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        return Inertia::render('store/auth/login', [
+        $props = [
             'canResetPassword' => true,
             'status' => $request->session()->get('status'),
-        ]);
+        ];
+
+        return Inertia::render('store/auth/login', $props);
     }
 }
