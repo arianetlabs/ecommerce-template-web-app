@@ -10,11 +10,13 @@ Before planning or editing, find the row whose globs match the file's path and r
 | app/Models/User.php,app/Http/Controllers/Admin/CustomerController.php,tests/Feature/Admin/CustomerControllerTest.php | .ai/rules/admin.md |
 | resources/js/pages/admin/products/components/*rich-text-editor*.tsx | .ai/rules/components.md |
 | resources/js/{components,layouts,pages}/** | .ai/rules/componentslayoutspages.md |
+| app/Http/Controllers/** | .ai/rules/controllers.md |
 | **/* | .ai/rules/general.md |
 | {app/Http/Resources/Admin/ProductResource.php,app/Http/Controllers/Admin/ProductController.php,resources/js/types/admin/product*.ts,resources/js/pages/admin/products/**} | .ai/rules/js-pages-admin-products.md |
 | resources/js/** | .ai/rules/js.md |
 | app/Actions/Products/**,app/Http/Requests/Admin/*ProductRequest.php,resources/js/pages/admin/products/** | .ai/rules/pages-admin-products.md |
 | resources/js/pages/**/products/** | .ai/rules/pages-products.md |
+| resources/js/pages/** | .ai/rules/pages.md |
 | app/Models/ProductImage.php,database/migrations/*product_images*,resources/js/pages/admin/products/** | .ai/rules/products.md |
 | app/Models/{Customer,Administrator}.php,app/Http/Controllers/{Store,Admin}/**,tests/Feature/{Store,Admin}/** | .ai/rules/store-admin.md |
 | resources/js/types/**, resources/js/types/**/*.ts | .ai/rules/types.md |
