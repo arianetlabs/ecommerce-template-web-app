@@ -50,13 +50,17 @@ class ProcessBrandLogoAction
             $imagick->setImageFormat('webp');
             $imagick->setImageCompressionQuality(85);
 
-            Storage::disk('public')->put($path, $imagick->getImageBlob());
+            $contents = $imagick->getImageBlob();
 
             $imagick->clear();
             $imagick->destroy();
         } catch (\Throwable) {
             $this->storeWithGd($logo, $path);
+
+            return;
         }
+
+        $this->storeContents($path, $contents);
     }
 
     private function storeWithGd(UploadedFile $logo, string $path): void
@@ -82,10 +86,18 @@ class ProcessBrandLogoAction
             throw new RuntimeException('Unable to write the brand logo as WebP.');
         }
 
-        Storage::disk('public')->put($path, $contents);
+        try {
+            $this->storeContents($path, $contents);
+        } finally {
+            @unlink($temporaryWebpPath);
+        }
+    }
 
-        imagedestroy($image);
-        @unlink($temporaryWebpPath);
+    private function storeContents(string $path, string $contents): void
+    {
+        if ($contents === '' || ! Storage::disk('public')->put($path, $contents)) {
+            throw new RuntimeException('Unable to store the brand logo.');
+        }
     }
 
     private function createGdImage(UploadedFile $logo): GdImage

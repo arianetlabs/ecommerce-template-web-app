@@ -25,7 +25,11 @@ class StoreCategoryRequest extends FormRequest
         $name = $this->input('name');
 
         $this->merge([
-            'parent_id' => $parentId === '__root__' || $parentId === '' ? null : $parentId,
+            'parent_id' => match (true) {
+                $parentId === '__root__', $parentId === '' => null,
+                is_string($parentId) => strtolower($parentId),
+                default => $parentId,
+            },
             'short_description' => is_string($shortDescription)
                 ? (trim($shortDescription) === '' ? null : trim($shortDescription))
                 : $shortDescription,
@@ -44,7 +48,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:128'],
-            'parent_id' => ['nullable', 'exists:categories,id'],
+            'parent_id' => ['nullable', 'ulid', 'exists:categories,id'],
             'short_description' => ['nullable', 'string', 'max:128'],
         ];
     }

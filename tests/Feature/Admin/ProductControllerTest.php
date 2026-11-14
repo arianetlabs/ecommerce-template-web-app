@@ -159,6 +159,13 @@ test('product creation requires between one and five valid images', function () 
         ])
         ->assertSessionHasErrors('images.0.file');
 
+    $this->actingAs($admin, 'admin')
+        ->post(route('admin.products.store'), [
+            ...$payload,
+            'images' => [2 => ['file' => UploadedFile::fake()->image('product.jpg')]],
+        ])
+        ->assertSessionHasErrors('images');
+
     expect(Product::query()->where('sku', 'INVALID-IMAGES')->exists())->toBeFalse();
 });
 
@@ -190,6 +197,30 @@ test('the base price must be greater than the sale price when provided', functio
     'equal to the sale price' => '100.00',
     'lower than the sale price' => '99.99',
 ]);
+
+test('product prices cannot exceed the catalog price limit', function () {
+    Storage::fake('public');
+
+    $admin = Administrator::factory()->create();
+    $brand = Brand::factory()->active()->create();
+    $category = Category::factory()->active()->create();
+
+    $this->actingAs($admin, 'admin')
+        ->post(route('admin.products.store'), [
+            'name' => 'Producto con precio fuera de rango',
+            'sku' => 'PRICE-OUT-OF-RANGE',
+            'barcode' => '7751234567890',
+            'brand_id' => $brand->id,
+            'category_id' => $category->id,
+            'sale_price' => '100000000.00',
+            'base_price' => '100000000.01',
+            'is_draft' => true,
+            'images' => [['file' => UploadedFile::fake()->image('product.jpg')]],
+        ])
+        ->assertSessionHasErrors(['sale_price', 'base_price']);
+
+    $this->assertDatabaseMissing('products', ['sku' => 'PRICE-OUT-OF-RANGE']);
+});
 
 test('the base price remains optional when creating a product', function () {
     Storage::fake('public');
@@ -547,6 +578,7 @@ test('product updates require one to five images that belong to the product', fu
     $category = Category::factory()->active()->create();
     $product = Product::factory()->for($brand)->for($category)->create();
     $otherProductImage = ProductImage::factory()->create();
+    $productImage = ProductImage::factory()->for($product)->create();
     $payload = [
         '_method' => 'patch',
         'name' => $product->name,
@@ -579,6 +611,13 @@ test('product updates require one to five images that belong to the product', fu
             'images' => [['id' => $otherProductImage->id]],
         ])
         ->assertSessionHasErrors('images.0.id');
+
+    $this->actingAs($admin, 'admin')
+        ->post(route('admin.products.update', $product), [
+            ...$payload,
+            'images' => [2 => ['id' => $productImage->id]],
+        ])
+        ->assertSessionHasErrors('images');
 });
 
 test('admins can see a paginated product listing', function () {
@@ -599,6 +638,15 @@ test('admins can see a paginated product listing', function () {
             ->where('products.meta.last_page', 2)
             ->where('filters.search', ''),
         );
+});
+
+test('the product listing handles a non-text search parameter', function () {
+    $admin = Administrator::factory()->create();
+
+    $this->actingAs($admin, 'admin')
+        ->get(route('admin.products.index', ['search' => ['producto']]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page->where('filters.search', ''));
 });
 
 test('admins can search products by sku name or barcode', function (string $search) {

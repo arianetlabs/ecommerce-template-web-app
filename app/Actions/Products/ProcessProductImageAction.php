@@ -177,14 +177,18 @@ class ProcessProductImageAction
     private function encodeAsAvif(GdImage $image, int $quality): string
     {
         ob_start();
-        $encoded = imageavif($image, null, $quality);
-        $contents = ob_get_clean();
+        try {
+            $encoded = imageavif($image, null, $quality);
+            $contents = ob_get_contents();
 
-        if (! $encoded || ! is_string($contents)) {
-            throw new ProductImageProcessingException('No se pudo convertir una variante al formato AVIF.');
+            if (! $encoded || ! is_string($contents) || $contents === '') {
+                throw new ProductImageProcessingException('No se pudo convertir una variante al formato AVIF.');
+            }
+
+            return $contents;
+        } finally {
+            ob_end_clean();
         }
-
-        return $contents;
     }
 
     private function variantPath(

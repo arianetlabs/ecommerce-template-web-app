@@ -45,6 +45,7 @@ export default function CategoryRowActions({ category, parentCategoryOptions }: 
         variant="ghost"
         size="icon-xs"
         aria-label={`Ver página de ${category.name}`}
+        disabled
       >
         <HugeiconsIcon
           icon={ExternalLinkIcon}

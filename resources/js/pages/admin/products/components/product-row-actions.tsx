@@ -17,6 +17,7 @@ export default function ProductRowActions({ product }: ProductRowActionsProps) {
         variant="ghost"
         size="icon-xs"
         aria-label={`Abrir ${product.name} en la tienda`}
+        disabled
       >
         <HugeiconsIcon
           icon={ExternalLinkIcon}

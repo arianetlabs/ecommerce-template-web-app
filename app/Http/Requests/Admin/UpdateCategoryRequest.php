@@ -27,7 +27,11 @@ class UpdateCategoryRequest extends FormRequest
         $name = $this->input('name');
 
         $this->merge([
-            'parent_id' => $parentId === '__root__' || $parentId === '' ? null : $parentId,
+            'parent_id' => match (true) {
+                $parentId === '__root__', $parentId === '' => null,
+                is_string($parentId) => strtolower($parentId),
+                default => $parentId,
+            },
             'short_description' => is_string($shortDescription)
                 ? (trim($shortDescription) === '' ? null : trim($shortDescription))
                 : $shortDescription,
@@ -46,7 +50,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:128'],
-            'parent_id' => ['nullable', 'exists:categories,id'],
+            'parent_id' => ['nullable', 'ulid', 'exists:categories,id'],
             'short_description' => ['nullable', 'string', 'max:128'],
             'is_active' => ['required', 'boolean'],
         ];
@@ -64,7 +68,7 @@ class UpdateCategoryRequest extends FormRequest
                 $category = $this->route('category');
                 $parentId = $this->input('parent_id');
 
-                if (! $category instanceof Category || $parentId === null) {
+                if (! $category instanceof Category || ! is_string($parentId) || $validator->errors()->has('parent_id')) {
                     return;
                 }
 
@@ -74,7 +78,7 @@ class UpdateCategoryRequest extends FormRequest
                     return;
                 }
 
-                if (in_array($parentId, $category->descendantIds(), true)) {
+                if (! $category->canMoveUnder($parentId)) {
                     $validator->errors()->add('parent_id', __('validation.category_parent_descendant'));
                 }
             },

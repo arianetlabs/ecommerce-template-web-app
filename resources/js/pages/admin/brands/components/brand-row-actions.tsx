@@ -39,6 +39,7 @@ export default function BrandRowActions({ brand }: BrandRowActionsProps) {
         variant="ghost"
         size="icon-xs"
         aria-label={`Ver página de ${brand.name}`}
+        disabled
       >
         <HugeiconsIcon
           icon={ExternalLinkIcon}

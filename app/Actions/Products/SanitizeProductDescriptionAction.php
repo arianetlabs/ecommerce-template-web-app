@@ -130,14 +130,15 @@ class SanitizeProductDescriptionAction
 
     private function isAllowedHref(string $href): bool
     {
-        if ($href === '') {
+        $normalizedHref = preg_replace('/[\x00-\x20\x7F]+/', '', $href);
+
+        if (! is_string($normalizedHref) || $normalizedHref === '') {
             return false;
         }
 
-        $scheme = parse_url($href, PHP_URL_SCHEME);
+        $scheme = parse_url($normalizedHref, PHP_URL_SCHEME);
 
         return $scheme === null
-            || $scheme === false
-            || in_array(strtolower($scheme), ['http', 'https', 'mailto', 'tel'], true);
+            || (is_string($scheme) && in_array(strtolower($scheme), ['http', 'https', 'mailto', 'tel'], true));
     }
 }

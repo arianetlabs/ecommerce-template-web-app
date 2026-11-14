@@ -53,19 +53,21 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    /**
-     * @return array<int, string>
-     */
-    public function descendantIds(): array
+    public function canMoveUnder(string $parentId): bool
     {
-        $descendantIds = [];
+        $parents = self::query()->pluck('parent_id', 'id');
+        $visited = [$this->getKey() => true];
 
-        foreach ($this->children()->select('id')->get() as $child) {
-            $descendantIds[] = $child->getKey();
-            $descendantIds = array_merge($descendantIds, $child->descendantIds());
+        while ($parentId !== null) {
+            if (isset($visited[$parentId])) {
+                return false;
+            }
+
+            $visited[$parentId] = true;
+            $parentId = $parents->get($parentId);
         }
 
-        return array_values(array_unique($descendantIds));
+        return true;
     }
 
     /** @return array{slug: array{source: string, onUpdate: bool, maxLength: int}} */

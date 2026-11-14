@@ -222,6 +222,7 @@ export default function ProductFormPage({ brands, categories, product }: Product
                     <Input
                       id="sale_price"
                       inputMode="decimal"
+                      max="99999999.99"
                       min="0"
                       onChange={(event) => setData('sale_price', event.target.value)}
                       placeholder="0.00"
@@ -237,6 +238,7 @@ export default function ProductFormPage({ brands, categories, product }: Product
                     <Input
                       id="base_price"
                       inputMode="decimal"
+                      max="99999999.99"
                       min="0"
                       onChange={(event) => setData('base_price', event.target.value)}
                       placeholder="0.00"

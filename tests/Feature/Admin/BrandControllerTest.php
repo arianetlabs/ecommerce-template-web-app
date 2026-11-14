@@ -91,6 +91,23 @@ test('admins can create a brand with a logo stored as webp', function () {
     Storage::disk('public')->assertExists($brand->logo_path);
 });
 
+test('brand creation fails when the logo cannot be stored', function () {
+    $admin = Administrator::factory()->create();
+
+    Storage::shouldReceive('disk')->with('public')->andReturnSelf();
+    Storage::shouldReceive('put')->once()->andReturnFalse();
+    Storage::shouldReceive('delete')->once()->andReturnTrue();
+
+    $this->actingAs($admin, 'admin')
+        ->post(route('admin.brands.store'), [
+            'name' => 'Marca sin logo almacenado',
+            'logo' => UploadedFile::fake()->image('logo.jpg', 600, 400),
+        ])
+        ->assertSessionHasErrors('logo');
+
+    $this->assertDatabaseMissing('brands', ['name' => 'Marca sin logo almacenado']);
+});
+
 test('admins can update a brand without changing its logo', function () {
     Storage::fake('public');
 

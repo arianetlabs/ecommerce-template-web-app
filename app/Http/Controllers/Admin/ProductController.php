@@ -26,7 +26,7 @@ class ProductController extends Controller
      */
     public function index(Request $request): Response
     {
-        $search = $request->string('search')->trim()->substr(0, 128)->toString();
+        $search = $request->string('search', strict: true)->trim()->substr(0, 128)->toString();
 
         $products = Product::query()
             ->with([
@@ -38,6 +38,7 @@ class ProductController extends Controller
                 $query->whereAny(['sku', 'name', 'barcode'], 'like', "%{$search}%");
             })
             ->latest()
+            ->orderByDesc('id')
             ->paginate(50)
             ->withQueryString();
 

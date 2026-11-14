@@ -294,7 +294,7 @@ test('admins cannot assign a category to one of its descendants', function () {
     $this->actingAs($admin, 'admin')
         ->patch(route('admin.categories.update', $rootCategory), [
             'name' => 'Root',
-            'parent_id' => $grandChildCategory->id,
+            'parent_id' => strtoupper($grandChildCategory->id),
             'short_description' => 'Root description',
             'is_active' => true,
         ])

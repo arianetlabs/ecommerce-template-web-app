@@ -28,7 +28,8 @@ export default function EditBrandModal({ brand, triggerClassName }: EditBrandMod
   const fileInputRef = useRef<HTMLInputElement>(null)
   const previewUrlRef = useRef<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [logoPreview, setLogoPreview] = useState<string | null>(brand.logo_url)
+  const [temporaryLogoUrl, setTemporaryLogoUrl] = useState<string | null>(null)
+  const logoPreview = temporaryLogoUrl ?? brand.logo_url
 
   useEffect(() => {
     return () => {
@@ -47,7 +48,7 @@ export default function EditBrandModal({ brand, triggerClassName }: EditBrandMod
 
   function resetLocalState(): void {
     clearTemporaryPreview()
-    setLogoPreview(brand.logo_url)
+    setTemporaryLogoUrl(null)
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
@@ -65,7 +66,7 @@ export default function EditBrandModal({ brand, triggerClassName }: EditBrandMod
 
     const objectUrl = URL.createObjectURL(file)
     previewUrlRef.current = objectUrl
-    setLogoPreview(objectUrl)
+    setTemporaryLogoUrl(objectUrl)
   }
 
   function handleDialogOpenChange(open: boolean): void {
