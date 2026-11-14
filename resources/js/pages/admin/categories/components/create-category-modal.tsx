@@ -16,7 +16,7 @@ import { useState } from 'react'
 
 const ROOT_PARENT_VALUE = '__root__'
 
-type CreateCategoryModalProps = {
+interface CreateCategoryModalProps {
   parentCategoryOptions: SelectOption[]
   defaultParentId?: string | null
   triggerClassName?: string

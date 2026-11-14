@@ -8,7 +8,7 @@ import type { PaginatedProducts } from '@/types/admin'
 import { Package01Icon } from '@hugeicons/core-free-icons'
 import { Head } from '@inertiajs/react'
 
-type ProductsIndexProps = {
+interface ProductsIndexProps {
   products: PaginatedProducts
   filters: {
     search: string

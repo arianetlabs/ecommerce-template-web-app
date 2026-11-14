@@ -5,7 +5,7 @@ import { Copy01Icon, Key01Icon, Tick01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useMemo, useState } from 'react'
 
-type CreatedAdministratorCredentialsModalProps = {
+interface CreatedAdministratorCredentialsModalProps {
   createdAdministratorCredentials: CreatedAdministratorCredentials | null
 }
 

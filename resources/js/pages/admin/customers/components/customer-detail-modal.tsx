@@ -5,7 +5,7 @@ import type { Customer } from '@/types/entities'
 import { Call02Icon, Mail01Icon, UserIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 
-type CustomerDetailModalProps = {
+interface CustomerDetailModalProps {
   customer: Customer | null
   isOpen: boolean
   onClose: () => void

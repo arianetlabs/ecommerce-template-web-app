@@ -6,7 +6,7 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import type { ChangeEvent, DragEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
-type ProductImageUploaderProps = {
+interface ProductImageUploaderProps {
   error?: string
   initialImages?: ProductFormImage[]
   onChange: (images: ProductImageSlot[]) => void

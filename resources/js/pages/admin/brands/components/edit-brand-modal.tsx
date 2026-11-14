@@ -15,7 +15,7 @@ import { Form } from '@inertiajs/react'
 import type { ChangeEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
-type EditBrandModalProps = {
+interface EditBrandModalProps {
   brand: Brand
   triggerClassName?: string
 }

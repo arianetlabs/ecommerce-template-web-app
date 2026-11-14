@@ -8,7 +8,11 @@ import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Form, Head } from '@inertiajs/react'
 
-export default function VerifyEmail({ status }: { status?: string }) {
+interface VerifyEmailProps {
+  status?: string
+}
+
+export default function VerifyEmail({ status }: VerifyEmailProps) {
   return (
     <>
       <Head title="Verificación de correo" />

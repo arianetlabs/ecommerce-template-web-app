@@ -17,7 +17,7 @@ import { useState } from 'react'
 
 const ROOT_PARENT_VALUE = '__root__'
 
-type EditCategoryModalProps = {
+interface EditCategoryModalProps {
   category: Category
   parentCategoryOptions: SelectOption[]
   triggerClassName?: string

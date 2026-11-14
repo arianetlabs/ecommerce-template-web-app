@@ -9,7 +9,7 @@ import { ArrowLeft01Icon, Edit02Icon, Package01Icon } from '@hugeicons/core-free
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Head, Link } from '@inertiajs/react'
 
-type ProductsShowProps = {
+interface ProductsShowProps {
   product: Product
 }
 

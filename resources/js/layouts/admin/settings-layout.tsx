@@ -1,6 +1,6 @@
 import Heading from '@/components/admin/heading'
 import { Button } from '@/components/admin/ui/button'
-import { useCurrentUrl } from '@/hooks/use-current-url'
+import { useCurrentUrl } from '@/hooks/admin/use-current-url'
 import { cn, toUrl } from '@/lib/utils'
 import { edit as editAppearance } from '@/routes/admin/appearance'
 import { edit as editInformation } from '@/routes/admin/information'

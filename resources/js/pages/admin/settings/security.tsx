@@ -1,22 +1,13 @@
-import SecurityController from '@/actions/App/Http/Controllers/Admin/Settings/SecurityController'
 import Heading from '@/components/admin/heading'
-import InputError from '@/components/admin/input-error'
-import PasswordInput from '@/components/admin/password-input'
-import { Button } from '@/components/admin/ui/button'
-import { Label } from '@/components/admin/ui/label'
-import { Spinner } from '@/components/admin/ui/spinner'
+import AdministratorPasswordForm from '@/pages/admin/settings/components/administrator-password-form'
 import { edit } from '@/routes/admin/security'
-import { Form, Head } from '@inertiajs/react'
-import { useRef } from 'react'
+import { Head } from '@inertiajs/react'
 
-type Props = {
+interface SecurityProps {
   passwordRules: string
 }
 
-export default function Security(props: Props) {
-  const passwordInput = useRef<HTMLInputElement>(null)
-  const currentPasswordInput = useRef<HTMLInputElement>(null)
-
+export default function Security(props: SecurityProps) {
   return (
     <>
       <Head title="Configuración de seguridad" />
@@ -28,84 +19,7 @@ export default function Security(props: Props) {
           description="Asegúrate de que tu cuenta use una contraseña larga y aleatoria para mantenerse segura."
         />
 
-        <Form
-          {...SecurityController.update.form()}
-          options={{
-            preserveScroll: true,
-          }}
-          resetOnError={['password', 'password_confirmation', 'current_password']}
-          resetOnSuccess
-          onError={(errors) => {
-            if (errors.password) {
-              passwordInput.current?.focus()
-            }
-
-            if (errors.current_password) {
-              currentPasswordInput.current?.focus()
-            }
-          }}
-          className="space-y-6"
-        >
-          {({ errors, processing }) => (
-            <>
-              <div className="grid gap-2">
-                <Label htmlFor="current_password">Contraseña actual</Label>
-
-                <PasswordInput
-                  id="current_password"
-                  ref={currentPasswordInput}
-                  name="current_password"
-                  className="mt-1 block w-full"
-                  autoComplete="current-password"
-                  placeholder="Contraseña actual"
-                />
-
-                <InputError message={errors.current_password} />
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="password">Nueva contraseña</Label>
-
-                <PasswordInput
-                  id="password"
-                  ref={passwordInput}
-                  name="password"
-                  className="mt-1 block w-full"
-                  autoComplete="new-password"
-                  placeholder="Nueva contraseña"
-                  passwordrules={props.passwordRules}
-                />
-
-                <InputError message={errors.password} />
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="password_confirmation">Confirmar contraseña</Label>
-
-                <PasswordInput
-                  id="password_confirmation"
-                  name="password_confirmation"
-                  className="mt-1 block w-full"
-                  autoComplete="new-password"
-                  placeholder="Confirmar contraseña"
-                  passwordrules={props.passwordRules}
-                />
-
-                <InputError message={errors.password_confirmation} />
-              </div>
-
-              <div className="flex items-center gap-4">
-                <Button
-                  disabled={processing}
-                  data-test="update-password-button"
-                >
-                  {processing && <Spinner />}
-                  Guardar
-                </Button>
-              </div>
-            </>
-          )}
-        </Form>
+        <AdministratorPasswordForm passwordRules={props.passwordRules} />
       </div>
     </>
   )

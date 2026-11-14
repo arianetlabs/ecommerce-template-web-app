@@ -3,7 +3,7 @@ import type { ProductFormPageProps } from '@/pages/admin/products/components/pro
 import { index as productsIndex } from '@/routes/admin/products'
 import type { EditableProduct } from '@/types/admin'
 
-type ProductsEditProps = ProductFormPageProps & {
+interface ProductsEditProps extends ProductFormPageProps {
   product: EditableProduct
 }
 

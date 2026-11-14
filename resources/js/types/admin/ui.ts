@@ -1,7 +1,7 @@
 import type { BreadcrumbItem } from '@/types/admin/navigation'
 import type { ReactNode } from 'react'
 
-export type AppLayoutProps = {
+export interface AppLayoutProps {
   children: ReactNode
   breadcrumbs?: BreadcrumbItem[]
 }

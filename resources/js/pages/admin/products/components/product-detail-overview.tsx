@@ -6,11 +6,11 @@ import { BarcodeIcon, Calendar03Icon, Clock01Icon, Folder01Icon, Link01Icon, Mon
 import type { IconSvgElement } from '@hugeicons/react'
 import { HugeiconsIcon } from '@hugeicons/react'
 
-type ProductDetailOverviewProps = {
+interface ProductDetailOverviewProps {
   product: Product
 }
 
-type DetailRowProps = {
+interface DetailRowProps {
   icon: IconSvgElement
   label: string
   value: string

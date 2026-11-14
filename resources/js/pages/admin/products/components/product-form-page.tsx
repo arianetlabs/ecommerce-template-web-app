@@ -19,7 +19,7 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import { Head, Link, useForm } from '@inertiajs/react'
 import type { SubmitEvent } from 'react'
 
-export type ProductFormPageProps = {
+export interface ProductFormPageProps {
   brands: ProductCatalogOption[]
   categories: ProductCatalogOption[]
   product?: EditableProduct

@@ -30,12 +30,12 @@ import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
 
-type ProductRichTextEditorProps = {
+interface ProductRichTextEditorProps {
   value: string
   onChange: (value: string) => void
 }
 
-type EditorButtonProps = {
+interface EditorButtonProps {
   label: string
   active?: boolean
   disabled?: boolean
@@ -45,7 +45,7 @@ type EditorButtonProps = {
 
 type EditorInstance = NonNullable<ReturnType<typeof useEditor>>
 
-type EditorToolbarProps = {
+interface EditorToolbarProps {
   editor: EditorInstance | null
 }
 

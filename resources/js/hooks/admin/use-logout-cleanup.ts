@@ -1,5 +1,5 @@
-import { useMobileNavigation } from '@/hooks/use-mobile-navigation'
-import type { CleanupFn } from '@/hooks/use-mobile-navigation'
+import { useMobileNavigation } from '@/hooks/admin/use-mobile-navigation'
+import type { CleanupFn } from '@/hooks/admin/use-mobile-navigation'
 import { router } from '@inertiajs/react'
 import { useCallback } from 'react'
 

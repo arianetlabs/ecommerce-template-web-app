@@ -1,5 +1,5 @@
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/admin/ui/sidebar'
-import { useLogoutCleanup } from '@/hooks/use-logout-cleanup'
+import { useLogoutCleanup } from '@/hooks/admin/use-logout-cleanup'
 import { logout } from '@/routes/admin/auth'
 import { Logout01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'

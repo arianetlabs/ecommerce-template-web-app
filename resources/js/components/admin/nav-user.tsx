@@ -3,7 +3,7 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/c
 import { UserInfo } from '@/components/admin/user-info'
 import { UserMenuContent } from '@/components/admin/user-menu-content'
 import { useAuthenticatedAdministrator } from '@/hooks/admin/use-authenticated-administrator'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/admin/use-mobile'
 import { UnfoldMoreIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 

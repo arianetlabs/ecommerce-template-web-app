@@ -5,7 +5,7 @@ import { Edit02Icon, ExternalLinkIcon, ViewIcon } from '@hugeicons/core-free-ico
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@inertiajs/react'
 
-type ProductRowActionsProps = {
+interface ProductRowActionsProps {
   product: Product
 }
 

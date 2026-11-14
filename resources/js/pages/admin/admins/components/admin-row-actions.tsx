@@ -12,7 +12,7 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import { Form } from '@inertiajs/react'
 import { useState } from 'react'
 
-type AdminRowActionsProps = {
+interface AdminRowActionsProps {
   administrator: Administrator
 }
 

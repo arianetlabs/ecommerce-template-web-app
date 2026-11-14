@@ -10,7 +10,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/admin/ui/sidebar'
-import { useCurrentUrl } from '@/hooks/use-current-url'
+import { useCurrentUrl } from '@/hooks/admin/use-current-url'
 import type { NavGroup } from '@/types/admin'
 import { ChevronRightIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'

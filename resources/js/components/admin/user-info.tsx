@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback } from '@/components/admin/ui/avatar'
-import { useInitials } from '@/hooks/use-initials'
+import { useInitials } from '@/hooks/admin/use-initials'
 import type { Administrator } from '@/types/entities'
 
 interface UserInfoProps {

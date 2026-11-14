@@ -7,7 +7,7 @@ import { Link, router } from '@inertiajs/react'
 import { useState } from 'react'
 import type { SubmitEvent } from 'react'
 
-type ProductToolbarProps = {
+interface ProductToolbarProps {
   initialSearch: string
 }
 

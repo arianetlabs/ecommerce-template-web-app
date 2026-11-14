@@ -4,7 +4,7 @@ import type { Product } from '@/types/entities'
 import { BarCode01Icon, Package01Icon, Tag01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 
-type ProductRowProps = {
+interface ProductRowProps {
   product: Product
 }
 

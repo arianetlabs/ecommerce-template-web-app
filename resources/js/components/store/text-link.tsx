@@ -2,9 +2,9 @@ import { cn } from '@/lib/utils'
 import { Link } from '@inertiajs/react'
 import type { ComponentProps } from 'react'
 
-type Props = ComponentProps<typeof Link>
+type TextLinkProps = ComponentProps<typeof Link>
 
-export default function TextLink({ className = '', children, ...props }: Props) {
+export default function TextLink({ className = '', children, ...props }: TextLinkProps) {
   return (
     <Link
       className={cn(

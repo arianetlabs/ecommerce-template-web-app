@@ -9,7 +9,7 @@ import type { Swiper as SwiperInstance } from 'swiper'
 import { A11y, Keyboard, Navigation, Thumbs } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-type ProductImageGalleryProps = {
+interface ProductImageGalleryProps {
   images: ProductImage[]
   productName: string
 }

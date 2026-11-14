@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/admin/ui/card'
 import type { Product } from '@/types/entities'
 
-type ProductDescriptionProps = {
+interface ProductDescriptionProps {
   product: Product
 }
 
